@@ -29,9 +29,9 @@ const LoginComponent = () => {
                 else if(response.data=== "no"){
                   setMessage("mot de pass ou username incorct")
                 }else{
-                  let entite = response.data;
-                  setMessage("vert " +entite)
-                  history.push(`/ListAppelOffreParEntite/${entite}`);
+                  let entitee = response.data;
+                  setMessage("vert " +entitee)
+                  history.push(`/ListAppelOffreParEntite/${entitee}`);
                   
              //     <Link className="btn btn-info" to={`/edit-employee/${employee.id}`} >Update</Link>
                 }

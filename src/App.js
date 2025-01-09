@@ -37,11 +37,11 @@ function App() {
               <Route exact path = "/" component = {LoginComponent}></Route>
               <Route path = "/appelOffres" component = {ListAppelOffreComponent}></Route>
               <Route path = "/add-appeloffre" component = {AddAppelOffreComponent} ></Route>
-              <Route path = "/edit-employee/:id" component = {AddAppelOffreComponent}></Route>
+              <Route path = "/edit-employee/:id/:entitee" component = {AddAppelOffreComponent}></Route>
               <Route path = "/dashboard" component = {DashboardAppelOffreComponent}></Route>
               <Route path = "/login" component = {LoginComponent}></Route>
-              <Route path = "/ListAppelOffreParEntite/:entite" component = {ListAppelOffreParEntiteComponent}></Route>
-              
+              <Route path = "/ListAppelOffreParEntite/:entitee" component = {ListAppelOffreParEntiteComponent}></Route>
+
             </Switch>
             {/* <FooterComponent /> */}
         </div>        

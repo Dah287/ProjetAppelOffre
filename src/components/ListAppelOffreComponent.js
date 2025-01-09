@@ -9,7 +9,7 @@ const [typeMarcheF, settypeMarcheF] = useState('')
 
 const [appelOffre, setAppelOffre] = useState([])
 
-
+const ent = "no"
   useEffect(() => {
     
         getAllAppelOffre(entiteF,typeMarcheF);
@@ -153,7 +153,7 @@ const [appelOffre, setAppelOffre] = useState([])
                                         paddingLeft: "4px",
                                         height: "30px",
                                     }}
-                                    to={`/edit-employee/${appel.id}`}
+                                    to={`/edit-employee/${appel.id}/${ent}`}
                                 >
                                     Update
                                 </Link>

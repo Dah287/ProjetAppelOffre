@@ -10,12 +10,13 @@ const [typeMarcheF, settypeMarcheF] = useState('')
 
 const [appelOffre, setAppelOffre] = useState([])
 
-const {entite} = useParams();
+const {entitee} = useParams();
+
   useEffect(() => {
     
-        getAllAppelOffre(entite,typeMarcheF);
+        getAllAppelOffre(entitee,typeMarcheF);
         
-    }, [entite,typeMarcheF])
+    }, [entitee,typeMarcheF])
 
     const getAllAppelOffre = (entiteF,typeMarcheF) => {
         AppelOffreService.getAllAppelOffre(entiteF,typeMarcheF).then((response) => {
@@ -29,7 +30,8 @@ const {entite} = useParams();
 
    const deleteappelOffre = (appelOffreId) => {
        AppelOffreService.deleteappelOffre(appelOffreId).then((response) =>{
-        getAllAppelOffre();
+        getAllAppelOffre(entitee,typeMarcheF);
+        history.push(`/ListAppelOffreParEntite/${entitee}`);
 
        }).catch(error =>{
            console.log(error);
@@ -51,7 +53,7 @@ const {entite} = useParams();
   return (
     
     <div className="container-fluid">
-    <h2 className="text-center">List Appel Offre : {entite}</h2>
+    <h2 className="text-center">List Appel Offre : {entitee}</h2>
 
     {/* Filtres */}
     <div className="row my-3">
@@ -129,7 +131,8 @@ const {entite} = useParams();
                                         paddingLeft: "4px",
                                         height: "30px",
                                     }}
-                                    to={`/edit-employee/${appel.id}`}
+                                    to={`/edit-employee/${appel.id}/${entitee}`}
+                                    
                                 >
                                     Update
                                 </Link>

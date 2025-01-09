@@ -22,8 +22,8 @@ const AddAppelOffreComponent = () => {
     const [dateJugement	, setDateJugement] = useState('')
 
     const history = useHistory();
-    const {id} = useParams();
-
+    const {id,entitee} = useParams();
+ 
     const saveOrUpdatedAppelOffre = (e) => {
         e.preventDefault();
 
@@ -32,7 +32,15 @@ const AddAppelOffreComponent = () => {
         if(id){
             AppelOffreService.updateappelOffre(id, appelOffre).then((response) => {
                 console.log(response.data.numero)
-                history.push('/appelOffres')
+                console.log(entitee)
+                if(entitee === "no")
+                {
+                    history.push('/appelOffres')
+                }else{
+                    console.log(entitee)
+                    history.push(`/ListAppelOffreParEntite/${entitee}`);
+                }
+              
             }).catch(error => {
                 console.log(error)
             })
