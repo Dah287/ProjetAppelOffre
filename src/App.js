@@ -41,6 +41,7 @@ function App() {
               <Route path = "/dashboard" component = {DashboardAppelOffreComponent}></Route>
               <Route path = "/login" component = {LoginComponent}></Route>
               <Route path = "/ListAppelOffreParEntite/:entite" component = {ListAppelOffreParEntiteComponent}></Route>
+              
             </Switch>
             {/* <FooterComponent /> */}
         </div>        
