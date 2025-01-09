@@ -9,6 +9,7 @@ import AddAppelOffreComponent from './components/AddAppelOffreComponent';
 import DashboardAppelOffreComponent from './components/DashboardAppelOffreComponent';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import LoginComponent from './components/LoginComponent';
+import ListAppelOffreParEntiteComponent from './components/ListAppelOffreParEntiteComponent';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
               <Route path = "/edit-employee/:id" component = {AddAppelOffreComponent}></Route>
               <Route path = "/dashboard" component = {DashboardAppelOffreComponent}></Route>
               <Route path = "/login" component = {LoginComponent}></Route>
+              <Route path = "/ListAppelOffreParEntite/:entite" component = {ListAppelOffreParEntiteComponent}></Route>
             </Switch>
             {/* <FooterComponent /> */}
         </div>        

@@ -23,10 +23,17 @@ const LoginComponent = () => {
     
             AppelOffreService.login(utilisateuropt).then((response) => {
                 console.log(response.data)
-                if(response.data){
+                if(response.data=== "admin"){
                     history.push('/appelOffres')
+                }
+                else if(response.data=== "no"){
+                  setMessage("mot de pass ou username incorct")
                 }else{
-setMessage("mot de pass ou username incorct")
+                  let entite = response.data;
+                  setMessage("vert " +entite)
+                  history.push(`/ListAppelOffreParEntite/${entite}`);
+                  
+             //     <Link className="btn btn-info" to={`/edit-employee/${employee.id}`} >Update</Link>
                 }
                
             }).catch(error => {
