@@ -71,7 +71,7 @@ const {entitee} = useParams();
             </select>
         </div>
         <div className="col text-end">
-            <Link to="/add-appeloffre" className="btn btn-primary">
+            <Link  to={`/add-appeloffre/${entitee}`} className="btn btn-primary">
                 Add Appel Offre
             </Link>
         </div>

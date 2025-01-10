@@ -9,6 +9,7 @@ const [typeMarcheF, settypeMarcheF] = useState('')
 
 const [appelOffre, setAppelOffre] = useState([])
 
+
 const ent = "no"
   useEffect(() => {
     
@@ -45,6 +46,8 @@ const ent = "no"
       };
 
       const history = useHistory();
+
+      const entt = "noentite";
 
 
     //   const fetchAppelOffres = (e) => {
@@ -93,7 +96,7 @@ const ent = "no"
             </select>
         </div>
         <div className="col text-end">
-            <Link to="/add-appeloffre" className="btn btn-primary">
+            <Link  to={`/add-appeloffre/${entt}`} className="btn btn-primary">
                 Add Appel Offre
             </Link>
         </div>

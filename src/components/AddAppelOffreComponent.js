@@ -22,7 +22,15 @@ const AddAppelOffreComponent = () => {
     const [dateJugement	, setDateJugement] = useState('')
 
     const history = useHistory();
-    const {id,entitee} = useParams();
+    const {id} = useParams();
+    let {entitee} = useParams();
+    
+    
+    if (entitee === undefined) {
+        entitee = null;
+    }
+
+    const {entt} = useParams();
  
     const saveOrUpdatedAppelOffre = (e) => {
         e.preventDefault();
@@ -39,6 +47,7 @@ const AddAppelOffreComponent = () => {
                 }else{
                     console.log(entitee)
                     history.push(`/ListAppelOffreParEntite/${entitee}`);
+                    
                 }
               
             }).catch(error => {
@@ -48,9 +57,18 @@ const AddAppelOffreComponent = () => {
         }else{
             AppelOffreService.createAppelOffre(appelOffre).then((response) =>{
 
-                console.log(response.data.numero)
+                console.log("entt ici "+entt)
+                if(entt === "noentite")
+                    {
+                        console.log("ici no "+entt)
+                        history.push('/appelOffres')
+                    }else{                       
+                        console.log("ici "+entt)
+                        history.push(`/ListAppelOffreParEntite/${entt}`);
+                        
+                    }
     
-                history.push('/appelOffres');
+          
     
             }).catch(error => {
                 console.log(error)
