@@ -8,6 +8,11 @@
   text-align: center;
   color: white;
 }
+.custom-header {
+  background-color: #4CAF50; /* Couleur personnalisée */
+  color: white; /* Couleur du texte */
+}
+
 .small-modal {
   width: 300px; /* Largeur de la fenêtre */
   font-size: 14px; /* Taille de la police */

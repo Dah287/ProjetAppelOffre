@@ -15,7 +15,7 @@ const HeaderComponent = () => {
     return (
         <div>
         <header>
-            <nav className="navbar navbar-expand-md navbar-dark bg-dark px-3">
+            <nav className="navbar navbar-expand-md navbar-dark bg-primary px-3">
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     {/* Logo ou titre */}
                     <a href="#" className="navbar-brand">
@@ -31,8 +31,8 @@ const HeaderComponent = () => {
                             */}
                             {user && location.pathname !== '/login' && user.role === 'admin' && (
                                 <>
-                                    <Link className="nav-link text-white mx-2" to="/dashboard">Recap</Link>
-                                    <Link className="nav-link text-white mx-2" to="/appelOffres">Liste des Appels d'Offres</Link>
+                                    <Link className="nav-link text-white mx-2" to="/dashboard"> <strong>RECAP</strong></Link>
+                                    <Link className="nav-link text-white mx-2" to="/appelOffres"><strong>Liste des Appels d'Offres</strong></Link>
                                 </>
                             )}                 
                     </div>
@@ -40,12 +40,19 @@ const HeaderComponent = () => {
                     {/* Bouton de connexion */}
                     <div>
                     {user ? (
-                                <button
-                                    className="btn btn-outline-light"
-                                    onClick={handleLogout}
-                                >
-                                    Déconnexion
-                                </button>
+                            <div className="d-flex align-items-center">
+                            {/* Logo utilisateur */}
+                            <i className="bi bi-person-circle text-white mx-2" style={{ fontSize: '1.5rem' , marginLeft: '8px'}}></i>
+                            {/* Nom de l'utilisateur */}
+                            <span className="text-white mx-2">{user.role}</span>
+                            {/* Bouton déconnexion */}
+                            <button
+                                className="btn btn-outline-light mx-4"
+                                onClick={handleLogout}
+                            >
+                                Déconnexion
+                            </button>
+                        </div>
                             ) : (
                                 <a href="/login" className="btn btn-outline-light">
                                     Connexion
