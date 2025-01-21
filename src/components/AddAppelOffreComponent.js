@@ -31,10 +31,45 @@ const AddAppelOffreComponent = () => {
     }
 
     const {entt} = useParams();
- 
+    const handleCancel = () => {
+        if(id){
+     
+             
+                console.log(entitee)
+                if(entitee === "no")
+                {
+                    history.push('/appelOffres')
+                    
+                }else{
+                    console.log(entitee)
+                    history.push(`/ListAppelOffreParEntite/${entitee}`);
+                    
+                }
+              
+            
+
+        }else{
+            
+
+                console.log("entt ici "+entt)
+                if(entt === "noentite")
+                    {
+                        console.log("ici no "+entt)
+                        history.push('/appelOffres')
+                    }else{                       
+                        console.log("ici "+entt)
+                        history.push(`/ListAppelOffreParEntite/${entt}`);
+                        
+                    }
+    
+        }
+      };
     const saveOrUpdatedAppelOffre = (e) => {
         e.preventDefault();
-
+        if (!objet || !entite) {
+            alert("Veuillez remplir  les champs  !");
+            return;
+        }
         const appelOffre = {numero, entite, objet,typeMarche,estimation,pme,moisPublicationPrevisionnelle,dateOuverturePrevisionnelle,datetransmisCe,dateobservationMc,dateOuvertureReelle,dateJugement,observations}
 
         if(id){
@@ -105,9 +140,9 @@ const AddAppelOffreComponent = () => {
     const title = () => {
 
         if(id){
-            return <h2 className = "text-center">Update Appel Offre</h2>
+            return <h2 className = "text-center">Modifier Appel Offre</h2>
         }else{
-            return <h2 className = "text-center">Add Appel Offre</h2>
+            return <h2 className = "text-center">Ajouter Appel Offre</h2>
         }
     }
 
@@ -131,8 +166,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {numero}
                                         onChange = {(e) => setNumero(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
 
                                 <div className = "form-group mb-2">
@@ -140,6 +174,7 @@ const AddAppelOffreComponent = () => {
                                         <select
                                         className="form-select"
                                         value = {entite}
+                                        required
                                         onChange = {(e) => setEntite(e.target.value)}                                    >
                                         <option selected>ENTITE</option>
                                         <option value="DPF">DPF</option>
@@ -162,8 +197,9 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {objet}
                                         onChange = {(e) => setObjet(e.target.value)}
-                                    >
-                                    </input>
+                                        required
+                                        />
+                                  
                                 </div>
 
                                 <div className = "form-group mb-2">
@@ -191,8 +227,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {estimation}
                                         onChange = {(e) => setEstimation(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
 
                                 <div className = "form-group mb-2">
@@ -204,8 +239,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {pme}
                                         onChange = {(e) => setPme(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
 
                                 <div className = "form-group mb-2">
@@ -222,7 +256,7 @@ const AddAppelOffreComponent = () => {
                                 </div>
 
                                 <div className = "form-group mb-2">
-                                    <label className = "form-label"> DATE Transmis BAR :</label>
+                                    <label className = "form-label"> DATE Transmis BAM :</label>
                                     <input
                                         type = "date"
                                         placeholder = "DATE D’OUVERTURE Prévisionnelle"
@@ -230,8 +264,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateOuverturePrevisionnelle}
                                         onChange = {(e) => setDateOuverturePrevisionnelle(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
 
                                 <div className = "form-group mb-2">
@@ -243,8 +276,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {datetransmisCe}
                                         onChange = {(e) => setDatetransmisCe(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> Observation MC :</label>
@@ -255,8 +287,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateobservationMc}
                                         onChange = {(e) => setDateobservationMc(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> Date ouverture Reelle:</label>
@@ -267,8 +298,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateOuvertureReelle}
                                         onChange = {(e) => setDateOuvertureReelle(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> Date jugement	:</label>
@@ -279,8 +309,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateJugement}
                                         onChange = {(e) => setDateJugement(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> OSERVATIONS:</label>
@@ -291,13 +320,11 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {observations}
                                         onChange = {(e) => set0bservations(e.target.value)}
-                                    >
-                                    </input>
+                                        />
                                 </div>
                                         <div>
                                 
-                                <Link to="/appelOffres"   className="btn btn-danger"> Cancel </Link>
-                                <button className = "btn btn-success" style={{ marginLeft: "30px" }} onClick = {(e) => saveOrUpdatedAppelOffre(e)} >Submit </button>
+                                        <button className="btn btn-danger"  onClick={handleCancel}   >      Cancel    </button>                                <button className = "btn btn-success" style={{ marginLeft: "30px" }} onClick = {(e) => saveOrUpdatedAppelOffre(e)} >Submit </button>
                                        </div>
                             </form>
 

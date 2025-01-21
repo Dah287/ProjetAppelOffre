@@ -77,97 +77,123 @@ const {entitee} = useParams();
                 onChange={(e) => settypeMarcheF(e.target.value)}
             >
                 <option selected>TYPE MARCHE</option>
-                <option value="F">F</option>
-                <option value="S">S</option>
-                <option value="T">T</option>
+                <option value="F">Fourniture</option>
+                <option value="S">Service</option>
+                <option value="T">Travaux</option>
             </select>
+        </div>
+        <div className="col-4">
+        <div className="col text-end">
+                    <p><strong>Total des appels d'offre : {appelOffre.length}</strong></p>
+                </div>
         </div>
         <div className="col text-end">
             <Link  to={`/add-appeloffre/${entitee}`} className="btn btn-primary">
-                Add Appel Offre
+            Ajouter AO
             </Link>
         </div>
     </div>
 
     {/* Table */}
     <div className="table-responsive">
-        <table className="table table-bordered table-striped">
-            <thead>
-                <tr>
-                <th style={{ textAlign: "center" }}>N° AO</th>
-                    <th style={{ textAlign: "center" }}>Entité</th>
-                    <th style={{ textAlign: "center" }}>Objet</th>
-                    <th style={{ textAlign: "center" }}>Type Marché</th>
-                    <th style={{ textAlign: "center" }}>Estimation</th>
-                    <th style={{ textAlign: "center" }}>PME</th>
-                    <th style={{ textAlign: "center" }}>Publication Prv</th>
-                    <th style={{ textAlign: "center" }}>Transmis BAM</th>
-                    <th style={{ textAlign: "center" }}>TransmisCE</th>
-                    <th style={{ textAlign: "center" }}>Observation MC</th>
-                    <th style={{ textAlign: "center" }}>Ouverture Reelle</th>
-                    <th style={{ textAlign: "center" }}>Jugement</th>
-                    <th style={{ textAlign: "center" }}>Observations</th>
-                    <th style={{ textAlign: "center" }}>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {appelOffre.map((appel) => (
-                    <tr
-                        key={appel.id}
-                        style={{
-                            backgroundColor: isValidDate(appel.dateOuvertureReelle)
-                                ? "#50C878"
-                                : "white",
-                        }}
-                    >
-                        <td>{appel.numero}</td>
-                        <td>{appel.entite}</td>
-                        <td>{appel.objet}</td>
-                        <td>{appel.typeMarche}</td>
-                        <td>{appel.estimation}</td>
-                        <td>{appel.pme}</td>
-                        <td>{appel.moisPublicationPrevisionnelle}</td>
-                        <td>{appel.dateOuverturePrevisionnelle}</td>
-                        <td>{appel.datetransmisCe}</td>
-                        <td>{appel.dateobservationMc}</td>
-                        <td>{appel.dateOuvertureReelle}</td>
-                        <td>{appel.dateJugement}</td>
-                        <td>{appel.observations}</td>
-                        <td style={{ display: "flex", alignItems: "center" }}>
-                                <Link
-                                    className="btn btn-info"
-                                    style={{
-                                        marginLeft: "10px",
-                                        fontSize: "10px",
-                                        width: "40px",
-                                        paddingLeft: "4px",
-                                        height: "30px",
-                                    }}
-                                    to={`/edit-employee/${appel.id}/${entitee}`}
-                                    
-                                >
-                                    Update
-                                </Link>
+    <table className="table table-bordered table-striped" style={{ tableLayout: "fixed" }}>
+  <thead>
+    <tr>
+      <th style={{ textAlign: "center" }}>Entité</th>
+      <th style={{ textAlign: "center", width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Objet</th>
+      <th style={{ textAlign: "center",width: "80px" }}>Type Marché</th>
+      <th style={{ textAlign: "center" }}>Estimation</th>
+      <th style={{ textAlign: "center",width: "80px" }}>PME</th>
+      <th style={{ textAlign: "center" }}>Publication PREV</th>
+      <th style={{ textAlign: "center" }}>Transmis BAM</th>
+      <th style={{ textAlign: "center" }}>Transmis CE</th>
+      <th style={{ textAlign: "center" }}>Observation MC</th>
+      <th style={{ textAlign: "center" ,width: "60px"}}>N° AO</th>
+      <th style={{ textAlign: "center" }}>Ouverture Reelle</th>
+      <th style={{ textAlign: "center" }}>Jugement</th>
+      <th style={{ textAlign: "center" }}>Observations</th>
+      <th style={{ textAlign: "center" ,width: "140px"}}>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {appelOffre
+      .sort((a, b) => {
+        const dateA = a.dateOuvertureReelle ? new Date(a.dateOuvertureReelle) : null;
+        const dateB = b.dateOuvertureReelle ? new Date(b.dateOuvertureReelle) : null;
+        const dateTransA = a.datetransmisCe ? new Date(a.datetransmisCe) : null;
+        const dateTransB = b.datetransmisCe ? new Date(b.datetransmisCe) : null;
 
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => deleteappelOffre(appel.id)}
-                                    style={{
-                                        marginLeft: "10px",
-                                        fontSize: "10px",
-                                        width: "40px",
-                                        paddingLeft: "4px",
-                                        height: "30px",
-                                    }}
-                                >
-                                    Delete
-                                </button>
-                            </td>
+        if (dateA && !dateB) return -1;
+        if (!dateA && dateB) return 1;
+        if (dateA && dateB) return dateA - dateB;
 
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        if (dateTransA && !dateTransB) return -1;
+        if (!dateTransA && dateTransB) return 1;
+        if (dateTransA && dateTransB) return dateTransA - dateTransB;
+
+        return 0;
+      })
+      .map((appel) => (
+        <tr
+          key={appel.id}
+          style={{
+            backgroundColor: appel.dateOuvertureReelle
+              ? "#50C878"
+              : appel.datetransmisCe
+              ? "#FFFF00"
+              : "white",
+          }}
+        >
+          <td>{appel.entite}</td>
+          <td style={{ width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            {appel.objet}
+          </td>
+          <td>{appel.typeMarche}</td>
+          <td>{appel.estimation?.toLocaleString('fr-MA')}</td>
+          <td>{appel.pme}</td>
+          <td>{appel.moisPublicationPrevisionnelle}</td>
+          <td>{appel.dateOuverturePrevisionnelle}</td>
+          <td>{appel.datetransmisCe}</td>
+          <td>{appel.dateobservationMc}</td>
+          <td style={{ textAlign: "center" ,width: "60px"}}>{appel.numero}</td>
+          <td>{appel.dateOuvertureReelle}</td>
+          <td>{appel.dateJugement}</td>
+          <td>{appel.observations}</td>
+          <td style={{  alignItems: "center" ,width: "160px"}}>
+            <Link
+              className="btn btn-info"
+              style={{
+                
+                fontSize: "12px",
+                width: "50px",
+                paddingLeft : "1px",
+                paddingRight:"1px"
+              
+              }}
+              to={`/edit-employee/${appel.id}/${entitee}`}
+            >
+              Modifier
+            </Link>
+            <button
+              className="btn btn-danger"
+              onClick={() => deleteappelOffre(appel.id)}
+              style={{
+                
+                fontSize: "12px",
+                width: "60px",
+                paddingLeft : "1px",
+                paddingRight:"1px",
+                marginLeft: "10px"
+             
+              }}
+            >
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      ))}
+  </tbody>
+</table>
     </div>
 </div>
   )

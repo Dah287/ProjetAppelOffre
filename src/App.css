@@ -18,23 +18,23 @@
   font-size: 14px; /* Taille de la police */
 }
 th {
-  font-size: 12px; /* Taille du texte réduite */
+  font-size: 14px; /* Taille du texte réduite */
   text-align: center;
 }
 td {
     
-  font-size: 12px; /* Taille du texte réduite */
+  font-size: 14px; /* Taille du texte réduite */
 }
 .btnn {
 
-  font-size: 12px;
+  font-size: 14px;
 
 }
 
 
 .ff th ,.ff td{
 
-  font-size: 16px;
+  font-size: 18px;
 }
 tfoot .footer-row {
   font-weight: bold; /* Texte en gras */
