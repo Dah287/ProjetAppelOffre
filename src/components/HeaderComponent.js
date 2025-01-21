@@ -31,7 +31,7 @@ const HeaderComponent = () => {
                             */}
                             {user && location.pathname !== '/login' && user.role === 'admin' && (
                                 <>
-                                    <Link className="nav-link text-white mx-2" to="/dashboard">Tableau de Bord</Link>
+                                    <Link className="nav-link text-white mx-2" to="/dashboard">Recap</Link>
                                     <Link className="nav-link text-white mx-2" to="/appelOffres">Liste des Appels d'Offres</Link>
                                 </>
                             )}                 

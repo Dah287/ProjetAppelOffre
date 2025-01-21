@@ -28,16 +28,28 @@ const {entitee} = useParams();
         })
     } 
 
-   const deleteappelOffre = (appelOffreId) => {
-       AppelOffreService.deleteappelOffre(appelOffreId).then((response) =>{
-        getAllAppelOffre(entitee,typeMarcheF);
-        history.push(`/ListAppelOffreParEntite/${entitee}`);
-
-       }).catch(error =>{
-           console.log(error);
-       })
-        
-    }
+    const deleteappelOffre = (appelOffreId) => {
+        // Afficher une boîte de dialogue de confirmation
+        const confirmation = window.confirm("Êtes-vous sûr de vouloir supprimer cet appel d'offre ?");
+    
+        // Si l'utilisateur confirme la suppression
+        if (confirmation) {
+            AppelOffreService.deleteappelOffre(appelOffreId)
+                .then((response) => {
+                    // Recharger la liste des appels d'offre après la suppression
+                    getAllAppelOffre(entitee, typeMarcheF);
+    
+                    // Rediriger vers la liste des appels d'offre
+                    history.push(`/ListAppelOffreParEntite/${entitee}`);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            // Si l'utilisateur annule, ne rien faire
+            console.log("Suppression annulée.");
+        }
+    };
     const isValidDate = (date) => {
         // Vérifie si la date est valide
         if(date!=null){
@@ -82,18 +94,18 @@ const {entitee} = useParams();
         <table className="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th style={{ textAlign: "center" }}>N°</th>
+                <th style={{ textAlign: "center" }}>N° AO</th>
                     <th style={{ textAlign: "center" }}>Entité</th>
                     <th style={{ textAlign: "center" }}>Objet</th>
                     <th style={{ textAlign: "center" }}>Type Marché</th>
                     <th style={{ textAlign: "center" }}>Estimation</th>
                     <th style={{ textAlign: "center" }}>PME</th>
-                    <th style={{ textAlign: "center" }}>Date de publication Pr</th>
-                    <th style={{ textAlign: "center" }}>Date d’ouverture Pr</th>
-                    <th style={{ textAlign: "center" }}>Transmis CE</th>
+                    <th style={{ textAlign: "center" }}>Publication Prv</th>
+                    <th style={{ textAlign: "center" }}>Transmis BAM</th>
+                    <th style={{ textAlign: "center" }}>TransmisCE</th>
                     <th style={{ textAlign: "center" }}>Observation MC</th>
-                    <th style={{ textAlign: "center" }}>Date ouverture R</th>
-                    <th style={{ textAlign: "center" }}>Date jugement</th>
+                    <th style={{ textAlign: "center" }}>Ouverture Reelle</th>
+                    <th style={{ textAlign: "center" }}>Jugement</th>
                     <th style={{ textAlign: "center" }}>Observations</th>
                     <th style={{ textAlign: "center" }}>Actions</th>
                 </tr>
@@ -104,7 +116,7 @@ const {entitee} = useParams();
                         key={appel.id}
                         style={{
                             backgroundColor: isValidDate(appel.dateOuvertureReelle)
-                                ? "green"
+                                ? "#50C878"
                                 : "white",
                         }}
                     >

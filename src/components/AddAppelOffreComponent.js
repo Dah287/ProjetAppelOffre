@@ -44,6 +44,7 @@ const AddAppelOffreComponent = () => {
                 if(entitee === "no")
                 {
                     history.push('/appelOffres')
+                    
                 }else{
                     console.log(entitee)
                     history.push(`/ListAppelOffreParEntite/${entitee}`);
@@ -221,7 +222,7 @@ const AddAppelOffreComponent = () => {
                                 </div>
 
                                 <div className = "form-group mb-2">
-                                    <label className = "form-label"> DATE D’OUVERTURE Prévisionnelle :</label>
+                                    <label className = "form-label"> DATE Transmis BAR :</label>
                                     <input
                                         type = "date"
                                         placeholder = "DATE D’OUVERTURE Prévisionnelle"

@@ -35,33 +35,33 @@ const DashboardAppelOffreComponent = () => {
                <thead>
                 <tr >
                     <th >ENTITE</th>
-                    <th>Appel d’offres à lancer</th>
-                    <th>Appel d’offres transmis au CE</th>
-                    <th>Appel d’offres lancé</th>
+                    <th style={{ textAlign: "center" }}>Appel d’offres à lancer</th>
+                    <th style={{ textAlign: "center" }}>Appel d’offres transmis au CE</th>
+                    <th style={{ textAlign: "center" }}>Appel d’offres lancé</th>
                     {/* <th>Appel d’offres en cours D'examen</th> */}
-                    <th>Appel d’offres jugé</th>
+                    <th style={{ textAlign: "center" }}>Appel d’offres jugé</th>
                 </tr>
                 </thead>
                 <tbody>
           {data.map((row, index) => (
             <tr  key={index}>
               <td className="header-entite">{row.entite}</td>
-              <td>{row.appelOffresALancer}</td>
-              <td>{row.appelOffresTransmisCe}</td>
-              <td>{row.appelOffresLance}</td>
+              <td style={{ textAlign: "center" }}>{row.appelOffresALancer}</td>
+              <td style={{ textAlign: "center" }}>{row.appelOffresTransmisCe}</td>
+              <td style={{ textAlign: "center" }}>{row.appelOffresLance}</td>
               {/* <td>{row.appelOffresEnCoursExamen}</td> */}
-              <td>{row.appelOffresJuge}</td>
+              <td style={{ textAlign: "center" }}>{row.appelOffresJuge}</td>
             </tr>
           ))}
                 </tbody>
                 <tfoot>
                 <tr className="footer-row">
                     <td>Total</td>
-                    <td>{data.reduce((sum, row) => sum + row.appelOffresALancer, 0)}</td>
-                    <td>{data.reduce((sum, row) => sum + row.appelOffresTransmisCe, 0)}</td>
-                    <td>{data.reduce((sum, row) => sum + row.appelOffresLance, 0)}</td>
+                    <td style={{ textAlign: "center" }}>{data.reduce((sum, row) => sum + row.appelOffresALancer, 0)}</td>
+                    <td style={{ textAlign: "center" }}>{data.reduce((sum, row) => sum + row.appelOffresTransmisCe, 0)}</td>
+                    <td style={{ textAlign: "center" }}>{data.reduce((sum, row) => sum + row.appelOffresLance, 0)}</td>
                     {/* <td>{data.reduce((sum, row) => sum + row.appelOffresEnCoursExamen, 0)}</td> */}
-                    <td>{data.reduce((sum, row) => sum + row.appelOffresJuge, 0)}</td>
+                    <td style={{ textAlign: "center" }}>{data.reduce((sum, row) => sum + row.appelOffresJuge, 0)}</td>
                 </tr>
                 </tfoot>
             </table>
