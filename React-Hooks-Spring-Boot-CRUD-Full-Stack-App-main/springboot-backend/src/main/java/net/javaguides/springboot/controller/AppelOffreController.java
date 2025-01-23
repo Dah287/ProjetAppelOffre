@@ -68,15 +68,14 @@ public class AppelOffreController {
         updateappelOffre.setDatetransmisCe(appelOffreDetails.getDatetransmisCe());
         updateappelOffre.setDateobservationMc(appelOffreDetails.getDateobservationMc());
         updateappelOffre.setDateOuvertureReelle(appelOffreDetails.getDateOuvertureReelle());
-     updateappelOffre.setDateJugement(appelOffreDetails.getDateJugement());
-updateappelOffre.setObservations(appelOffreDetails.getObservations());
+        updateappelOffre.setDateJugement(appelOffreDetails.getDateJugement());
+        updateappelOffre.setObservations(appelOffreDetails.getObservations());
 
 
         appelOffreRepository.save(updateappelOffre);
 
         return ResponseEntity.ok(updateappelOffre);
     }
-
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteappelOffre(@PathVariable long id){
 
