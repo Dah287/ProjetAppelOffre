@@ -84,7 +84,11 @@ const {entitee} = useParams();
         </div>
         <div className="col-4">
         <div className="col text-end">
-                    <p><strong>Total des appels d'offre : {appelOffre.length}</strong></p>
+        <p>
+                <strong>
+                    Total des appels d'offre : <span style={{ color: 'red' }}>{appelOffre.length}</span>
+                </strong>
+                </p>
                 </div>
         </div>
         <div className="col text-end">

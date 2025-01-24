@@ -6,22 +6,23 @@ const ListAppelOffreComponent = () => {
 
 const [entiteF, setEntiteF] = useState('')
 const [typeMarcheF, settypeMarcheF] = useState('')
-
+const [fitre, setfitre] = useState('')
 const [appelOffre, setAppelOffre] = useState([])
 const {enttt} = useParams();
 
 const ent = "no"
   useEffect(() => {
     
-        getAllAppelOffre(entiteF,typeMarcheF);
+        getAllAppelOffre(entiteF,typeMarcheF,fitre);
         
-    }, [entiteF, typeMarcheF])
+    }, [entiteF, typeMarcheF,fitre])
 
-    const getAllAppelOffre = (entiteF,typeMarcheF) => {
-        AppelOffreService.getAllAppelOffre(entiteF,typeMarcheF).then((response) => {
+    const getAllAppelOffre = (entiteF,typeMarcheF,fitre) => {
+        AppelOffreService.getAllAppelOffre(entiteF,typeMarcheF,fitre).then((response) => {
             setAppelOffre(response.data)
             console.log(entiteF);
             console.log(typeMarcheF);
+            console.log(fitre);
         }).catch(error =>{
             console.log(error);
         })
@@ -72,11 +73,11 @@ const deleteappelOffre = (appelOffreId) => {
 
     
     <div className="container-fluid">
-    <h2 className="text-center">List Appel Offre</h2>
-
+    <h2 className="text-center">Liste des Appels d'Offres</h2>
+<br></br>
     {/* Filtres */}
-    <div className="row my-3">
-        <div className="col-4">
+    <div className="row my-2">
+        <div className="col-3">
             <select
                 className="form-select"
                 value={entiteF}
@@ -93,7 +94,7 @@ const deleteappelOffre = (appelOffreId) => {
                 <option value="SMG">SMG</option>
             </select>
         </div>
-        <div className="col-4">
+        <div className="col-3">
             <select
                 className="form-select"
                 value={typeMarcheF}
@@ -105,20 +106,36 @@ const deleteappelOffre = (appelOffreId) => {
                 <option value="T">Travaux</option>
             </select>
         </div>
+        <div className="col-3">
+            <select
+                className="form-select"
+                value={fitre}
+                onChange={(e) => setfitre(e.target.value)}
+            >
+                <option selected>Filtre</option>
+                <option value="ouv">Appel Offre Lancer</option>
+                <option value="ce">Appel Offre Transmis commission </option>
+               
+            </select>
+        </div>
         <div className="col-2">
         <div className="col text-end">
-                    <p><strong>Total des appels d'offre : {appelOffre.length}</strong></p>
+                <p>
+                <strong>
+                    Total des appels d'offre : <span style={{ color: 'red' }}>{appelOffre.length}</span>
+                </strong>
+                </p>
                 </div>
         </div>
         
-        <div className="col text-end">
+        <div className="col-1 text-end">
             <Link  to={`/add-appeloffre/${entt}`} className="btn btn-primary">
             Ajouter AO
             </Link>
         </div>
         
     </div>
-
+<br></br>
     {/* Table */}
     <div className="table-responsive">
     <table className="table table-bordered table-striped" style={{ tableLayout: "fixed" }}>
@@ -131,7 +148,7 @@ const deleteappelOffre = (appelOffreId) => {
       <th style={{ textAlign: "center",width: "80px" }}>PME</th>
       <th style={{ textAlign: "center" }}>Publication PREV</th>
       <th style={{ textAlign: "center" }}>Transmis BAM</th>
-      <th style={{ textAlign: "center" }}>Transmis CE</th>
+      <th style={{ textAlign: "center" }}>Transmis commission</th>
       <th style={{ textAlign: "center" }}>Observation MC</th>
       <th style={{ textAlign: "center" ,width: "60px"}}>N° AO</th>
       <th style={{ textAlign: "center" }}>Ouverture Reelle</th>

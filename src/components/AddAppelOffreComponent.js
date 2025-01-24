@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Link, useHistory, useParams } from 'react-router-dom';
 import EmployeeService from '../services/EmployeeService'
 import AppelOffreService from '../services/AppelOffreService';
-
+import './AddAppelOffreComponent.css'; // Chemin vers votre fichier CSS
 const AddAppelOffreComponent = () => {
 
     const [numero, setNumero] = useState('')
@@ -242,7 +242,7 @@ const AddAppelOffreComponent = () => {
                                         />
                                 </div>
 
-                                <div className = "form-group mb-2">
+                                <div className = "form-group mb-2"style={{ backgroundColor: "#D8BFD8"}}>
                                     <label className = "form-label"> Date de publication Prévisionnelle	 :</label>
                                     <input
                                         type = "date"
@@ -252,10 +252,10 @@ const AddAppelOffreComponent = () => {
                                         value = {moisPublicationPrevisionnelle}
                                         onChange = {(e) => setMoisPublicationPrevisionnelle(e.target.value)}
                                     >
-                                    </input>
+                                    </input><br></br>
                                 </div>
 
-                                <div className = "form-group mb-2">
+                                <div className = "form-group mb-2"style={{ backgroundColor: "#87CEEB"}}>
                                     <label className = "form-label"> DATE Transmis BAM :</label>
                                     <input
                                         type = "date"
@@ -264,11 +264,11 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateOuverturePrevisionnelle}
                                         onChange = {(e) => setDateOuverturePrevisionnelle(e.target.value)}
-                                        />
+                                        /><br></br>
                                 </div>
 
-                                <div className = "form-group mb-2">
-                                    <label className = "form-label"> Transmis CE :</label>
+                                <div className = "form-group mb-2" style={{ backgroundColor: "#FFFF00"}}>
+                                    <label className = "form-label">Transmis commission :</label>
                                     <input
                                         type = "date"
                                         placeholder = "Date Transmis CE"
@@ -277,9 +277,10 @@ const AddAppelOffreComponent = () => {
                                         value = {datetransmisCe}
                                         onChange = {(e) => setDatetransmisCe(e.target.value)}
                                         />
+                                        <br></br>
                                 </div>
-                                <div className = "form-group mb-2">
-                                    <label className = "form-label"> Observation MC :</label>
+                                <div className = "form-group mb-2" style={{ backgroundColor: "#F4A460"}}>
+                                    <label className = "form-label" > Observation MC :</label>
                                     <input
                                         type = "date"
                                         placeholder = "Date Observation MC"
@@ -287,20 +288,21 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateobservationMc}
                                         onChange = {(e) => setDateobservationMc(e.target.value)}
-                                        />
+                                        /><br></br>
                                 </div>
-                                <div className = "form-group mb-2">
-                                    <label className = "form-label"> Date ouverture Reelle:</label>
+                                <div className = "form-group mb-2" style={{ backgroundColor: "#7CFC00"}}>
+                                    <label className = "form-label" > Date ouverture Reelle:</label>
                                     <input
+                                    
                                         type = "date"
                                         placeholder = "Date ouverture Reelle"
                                         name = "dateOuvertureReelle"
                                         className = "form-control"
                                         value = {dateOuvertureReelle}
                                         onChange = {(e) => setDateOuvertureReelle(e.target.value)}
-                                        />
+                                        /><br></br>
                                 </div>
-                                <div className = "form-group mb-2">
+                                <div className = "form-group mb-2" style={{ backgroundColor: "#FA8072"}}>
                                     <label className = "form-label"> Date jugement	:</label>
                                     <input
                                         type = "date"
@@ -309,7 +311,7 @@ const AddAppelOffreComponent = () => {
                                         className = "form-control"
                                         value = {dateJugement}
                                         onChange = {(e) => setDateJugement(e.target.value)}
-                                        />
+                                        /><br></br>
                                 </div>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> OSERVATIONS:</label>

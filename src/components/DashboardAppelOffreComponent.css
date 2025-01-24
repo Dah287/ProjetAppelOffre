@@ -4,3 +4,13 @@ th  td {
     font-size: 12px; /* Taille du texte réduite */
     text-align: center;
   }
+
+
+  .table tbody tr:nth-child(odd) {
+    background-color: #FFA500; /* Bleu clair */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #D3D3D3; /* Gris clair */
+}
+

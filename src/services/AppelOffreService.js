@@ -7,7 +7,7 @@ const AppelOffre_BASE_REST_API_URL = "http://localhost:8080/api/v1/appelOffre";
 class AppelOffreService{
     
  
-getAllAppelOffre(entite,typeMarche){
+getAllAppelOffre(entite,typeMarche,fitre){
        let url = AppelOffre_BASE_REST_API_URL +'?'; 
        
        if (entite && entite !== "ENTITE") {
@@ -16,6 +16,9 @@ getAllAppelOffre(entite,typeMarche){
       }
       if (typeMarche && typeMarche !== "TYPE MARCHE") {
         url += `typeMarche=${typeMarche}&`;
+      }
+      if (fitre && fitre !== "Filre") {
+        url += `fitre=${fitre}&`;
       }
 
             // Supprime le dernier "&" de l'URL si présent

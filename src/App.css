@@ -27,14 +27,14 @@ td {
 }
 .btnn {
 
-  font-size: 14px;
+  font-size: 12px;
 
 }
 
 
 .ff th ,.ff td{
 
-  font-size: 18px;
+  font-size: 16px;
 }
 tfoot .footer-row {
   font-weight: bold; /* Texte en gras */
@@ -78,3 +78,4 @@ buttongg {
   width: 100px;
   text-align: center;
 }
+

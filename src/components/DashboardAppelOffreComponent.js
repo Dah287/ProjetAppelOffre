@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AppelOffreService from '../services/AppelOffreService';
+import './DashboardAppelOffreComponent.css'; // Chemin vers votre fichier CSS
 
 const DashboardAppelOffreComponent = () => {
     const [appelOffresData, setAppelOffresData] = useState([]);
@@ -28,12 +29,15 @@ const DashboardAppelOffreComponent = () => {
 
     return (
         <div className="container-fluid">
-            <h2 className="text-center mt-4 mb-4 fs-2">SUIVI DU PROGRAMME PREVISIONNEL DES OPERATIONS NOUVELLES A LANCER PAR <br></br>L’ORMVAD </h2>
+            <h2 className="text-center mt-4 mb-4 fs-2">SUIVI DU PROGRAMME PREVISIONNEL DES OPERATIONS NOUVELLES A LANCER PAR <br /> L’ORMVAD</h2>
 
             {loading ? (
                 <p className="text-center fs-4">Chargement des données...</p>
             ) : error ? (
-                <p className="text-danger text-center fs-4">{error}</p>
+                <div className="text-center">
+                    <p className="text-danger fs-4">{error}</p>
+                    <button className="btn btn-primary" onClick={fetchDashboardData}>Réessayer</button>
+                </div>
             ) : (
                 <div className="table-responsive">
                     <table className="table table-bordered table-striped fs-5">
