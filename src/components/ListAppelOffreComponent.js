@@ -113,9 +113,9 @@ const deleteappelOffre = (appelOffreId) => {
                 onChange={(e) => setfitre(e.target.value)}
             >
                 <option selected>Filtre</option>
-                <option value="ouv">Appel Offre Lancer</option>
                 <option value="ce">Appel Offre Transmis commission </option>
-               
+                <option value="ouv">Appel Offre Lancer</option>
+                <option value="jug">Appel Offre jug </option>
             </select>
         </div>
         <div className="col-2">
@@ -158,33 +158,43 @@ const deleteappelOffre = (appelOffreId) => {
     </tr>
   </thead>
   <tbody>
-    {appelOffre
-      .sort((a, b) => {
-        const dateA = a.dateOuvertureReelle ? new Date(a.dateOuvertureReelle) : null;
-        const dateB = b.dateOuvertureReelle ? new Date(b.dateOuvertureReelle) : null;
-        const dateTransA = a.datetransmisCe ? new Date(a.datetransmisCe) : null;
-        const dateTransB = b.datetransmisCe ? new Date(b.datetransmisCe) : null;
+  {appelOffre
+  .sort((a, b) => {
+    const dateJugementA = a.dateJugement ? new Date(a.dateJugement) : null;
+    const dateJugementB = b.dateJugement ? new Date(b.dateJugement) : null;
+    const dateA = a.dateOuvertureReelle ? new Date(a.dateOuvertureReelle) : null;
+    const dateB = b.dateOuvertureReelle ? new Date(b.dateOuvertureReelle) : null;
+    const dateTransA = a.datetransmisCe ? new Date(a.datetransmisCe) : null;
+    const dateTransB = b.datetransmisCe ? new Date(b.datetransmisCe) : null;
 
-        if (dateA && !dateB) return -1;
-        if (!dateA && dateB) return 1;
-        if (dateA && dateB) return dateA - dateB;
+    // Priorité au tri par dateJugement
+    if (dateJugementA && !dateJugementB) return -1;
+    if (!dateJugementA && dateJugementB) return 1;
+    if (dateJugementA && dateJugementB) return dateJugementA - dateJugementB;
 
-        if (dateTransA && !dateTransB) return -1;
-        if (!dateTransA && dateTransB) return 1;
-        if (dateTransA && dateTransB) return dateTransA - dateTransB;
+    // Ensuite tri par dateOuvertureReelle
+    if (dateA && !dateB) return -1;
+    if (!dateA && dateB) return 1;
+    if (dateA && dateB) return dateA - dateB;
 
-        return 0;
+    // Ensuite tri par datetransmisCe
+    if (dateTransA && !dateTransB) return -1;
+    if (!dateTransA && dateTransB) return 1;
+    if (dateTransA && dateTransB) return dateTransA - dateTransB;
+
+    return 0;
       })
       .map((appel) => (
         <tr
-          key={appel.id}
-          style={{
-            backgroundColor: appel.dateOuvertureReelle
-              ? "#50C878"
-              : appel.datetransmisCe
-              ? "#FFFF00"
-              : "white",
-          }}
+        style={{
+          backgroundColor: appel.dateJugement
+            ? "#CD853F" // Couleur si dateJugement est non nul
+            : appel.dateOuvertureReelle
+            ? "#50C878" // Couleur si dateOuvertureReelle est non nul
+            : appel.datetransmisCe
+            ? "#FFFF00" // Couleur si datetransmisCe est non nul
+            : "white",  // Couleur par défaut
+        }}
         >
           <td>{appel.entite}</td>
           <td style={{ width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
