@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin("*")
@@ -27,7 +24,7 @@ public class AppelOffreController {
     private AppelOffreRepository  appelOffreRepository;
 
     @Autowired
-   private UtilisateurRepository utilisateurRepository;
+    private UtilisateurRepository utilisateurRepository;
 
 
 //   @GetMapping
@@ -68,15 +65,14 @@ public class AppelOffreController {
         updateappelOffre.setDatetransmisCe(appelOffreDetails.getDatetransmisCe());
         updateappelOffre.setDateobservationMc(appelOffreDetails.getDateobservationMc());
         updateappelOffre.setDateOuvertureReelle(appelOffreDetails.getDateOuvertureReelle());
-     updateappelOffre.setDateJugement(appelOffreDetails.getDateJugement());
-updateappelOffre.setObservations(appelOffreDetails.getObservations());
+        updateappelOffre.setDateJugement(appelOffreDetails.getDateJugement());
+        updateappelOffre.setObservations(appelOffreDetails.getObservations());
 
 
         appelOffreRepository.save(updateappelOffre);
 
         return ResponseEntity.ok(updateappelOffre);
     }
-
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteappelOffre(@PathVariable long id){
 
@@ -89,53 +85,190 @@ updateappelOffre.setObservations(appelOffreDetails.getObservations());
 
     }
 
-
+    //gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    //jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
     // Endpoint pour récupérer les appel d'offres filtrés
     @GetMapping
     public List<AppelOffre> getAppelOffres(
             @RequestParam(required = false) String entite,
-            @RequestParam(required = false) String typeMarche) {
+            @RequestParam(required = false) String typeMarche,
+            @RequestParam(required = false) String fitre) {
 
-        if (entite != null && typeMarche != null) {
-            return appelOffreRepository.findByEntiteAndTypeMarche(entite,typeMarche);
-        } else if (entite != null) {
-            return appelOffreRepository.findByEntite(entite);
-        } else if (typeMarche != null) {
-            return appelOffreRepository.findByTypeMarche(typeMarche);
-        } else {
-            return appelOffreRepository.findAll(); // Retourne toutes les offres si aucun filtre n'est appliqué
+        if ("ouv".equals(fitre)) {
+            // Si filtre = "ouv", récupère les lignes où dateOuvertureReelle est non nulle et dateJugement est nulle
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarcheAndDateOuvertureReelleIsNotNullAndDateJugementIsNull(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntiteAndDateOuvertureReelleIsNotNullAndDateJugementIsNull(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarcheAndDateOuvertureReelleIsNotNullAndDateJugementIsNull(typeMarche);
+            } else {
+                return appelOffreRepository.findByDateOuvertureReelleIsNotNullAndDateJugementIsNull(); // Filtrer par dateOuvertureReelle non nulle et dateJugement nulle
+            }
+        }
+
+        else if ("ce".equals(fitre)) {
+            // Si fitre = "ce", récupère les lignes où datetransmisCe est non nulle et dateOuvertureReelle est nulle
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarcheAndDatetransmisCeIsNotNullAndDateOuvertureReelleIsNull(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntiteAndDatetransmisCeIsNotNullAndDateOuvertureReelleIsNull(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarcheAndDatetransmisCeIsNotNullAndDateOuvertureReelleIsNull(typeMarche);
+            } else {
+                return appelOffreRepository.findByDatetransmisCeIsNotNullAndDateOuvertureReelleIsNull(); // Filtrer par datetransmisCe non nulle et dateOuvertureReelle nulle
+            }
+        } else if ("jug".equals(fitre)) {
+            // Si fitre = "ouv", récupère les lignes où dateOuvertureReelle est non nulle
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarcheAndDateJugementIsNotNull(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntiteAndDateJugementIsNotNull(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarcheAndDateJugementIsNotNull(typeMarche);
+            } else {
+                return appelOffreRepository.findByDateJugementIsNotNull(); // Filtrer par dateOuvertureReelle non nulle
+            }
+
+        }
+        else {
+            // Si fitre est nul ou non reconnu, appliquer les autres filtres comme avant
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarche(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntite(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarche(typeMarche);
+            } else {
+                return appelOffreRepository.findAll(); // Retourne toutes les offres si aucun filtre n'est appliqué
+            }
         }
     }
 
 
-// dashbord
-@GetMapping("/dashboard")
-public List<Map<String, Object>> getDashboardData() {
-    return appelOffreRepository.findAll().stream()
-            .collect(Collectors.groupingBy(AppelOffre::getEntite))
-            .entrySet().stream()
-            .map(entry -> {
-                Map<String, Object> row = new HashMap<>();
-                row.put("entite", entry.getKey());
-                row.put("appelOffresALancer", entry.getValue().stream().filter(a -> a.getMoisPublicationPrevisionnelle() != null).count());
-                row.put("appelOffresTransmisCe", entry.getValue().stream().filter(a -> a.getDatetransmisCe() != null).count());
-                row.put("appelOffresLance", entry.getValue().stream().filter(a -> a.getDateOuvertureReelle() != null).count());
-                row.put("appelOffresEnCoursExamen", 0); // Ajoute les conditions nécessaires
-                row.put("appelOffresJuge", entry.getValue().stream().filter(a -> a.getDateJugement() != null).count());
-                return row;
-            })
-            .collect(Collectors.toList());
-}
-// login
-@PostMapping("/register")
-public Utilisateur register(@RequestBody Utilisateur utilisateur) {
+    // dashbord
+    @GetMapping("/dashboard")
+    public List<Map<String, Object>> getDashboardData() {
+        return appelOffreRepository.findAll().stream()
+                .collect(Collectors.groupingBy(AppelOffre::getEntite)) // Regroupe par entité
+                .entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("entite", entry.getKey());
 
-    return utilisateurRepository.save(utilisateur);
-}
+                    // Comptage des appels d'offres ALancer où getMoisPublicationPrevisionnelle() n'est pas null
+                    long appelOffresALancer = entry.getValue().stream()
+                            .filter(a -> a.getMoisPublicationPrevisionnelle() != null)
+                            .count();
+
+                    // Comptage des appels d'offres lancés
+                    long appelOffresLance = entry.getValue().stream()
+                            .filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
+                            .count();
+
+                    // Comptage des appels d'offres transmis à la commission
+                    long appelOffresTransmisCe = entry.getValue().stream()
+                            .filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
+                            .count();
+
+                    // Comptage des appels d'offres jugés
+                    long appelOffresJuge = entry.getValue().stream()
+                            .filter(a -> a.getDateJugement() != null)
+                            .count();
+
+                    // Pour appelOffresEnCoursExamen, ajouter la logique nécessaire pour ce cas
+                    // Par exemple, si vous voulez filtrer les appels d'offres où aucune des dates n'est définie :
+                    long appelOffresEnCoursExamen = entry.getValue().stream()
+                            .filter(a -> a.getDateOuvertureReelle() == null && a.getDatetransmisCe() == null && a.getDateJugement() == null)
+                            .count();
+
+                    // Ajoute les résultats dans la map
+                    row.put("appelOffresALancer", appelOffresALancer);
+                    row.put("appelOffresLance", appelOffresLance);
+                    row.put("appelOffresTransmisCe", appelOffresTransmisCe);
+                    row.put("appelOffresJuge", appelOffresJuge);
+                    row.put("appelOffresEnCoursExamen", appelOffresEnCoursExamen);
+
+                    return row;
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    @GetMapping("/dashboards")
+    public List<Map<String, Object>> getDashboardData(@RequestParam(required = false) String entite) {
+        // Si entite est null ou vide, calculer le total global
+        List<AppelOffre> appelOffres;
+
+        if (entite == null || entite.isEmpty()) {
+            // Filtrer sur toutes les entités
+            appelOffres = appelOffreRepository.findAll();
+        } else {
+            // Filtrer par l'entité spécifiée
+            appelOffres = appelOffreRepository.findAll().stream()
+                    .filter(a -> a.getEntite().equals(entite))
+                    .collect(Collectors.toList());
+        }
+
+        return appelOffres.stream()
+                .collect(Collectors.groupingBy(AppelOffre::getEntite))
+                .entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("entite", entry.getKey());
+
+                    // Comptage des Appels d'Offres Lancés
+                    long appelOffresLance = entry.getValue().stream()
+                            .filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
+                            .count();
+
+                    // Comptage des Appels d'Offres Transmis à la Commission
+                    long appelOffresTransmisCe = entry.getValue().stream()
+                            .filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
+                            .count();
+
+                    // Comptage des Appels d'Offres Jugés
+                    long appelOffresJuge = entry.getValue().stream()
+                            .filter(a -> a.getDateJugement() != null)
+                            .count();
+
+                    // En cours d'examen (peut-être un autre critère ou une valeur par défaut)
+                    long appelOffresEnCoursExamen = 0; // Ajoutez la logique nécessaire pour ce cas
+
+                    row.put("appelOffresLance", appelOffresLance);
+                    row.put("appelOffresTransmisCe", appelOffresTransmisCe);
+                    row.put("appelOffresLance", appelOffresLance);
+                    row.put("appelOffresEnCoursExamen", appelOffresEnCoursExamen);
+                    row.put("appelOffresJuge", appelOffresJuge);
+                    return row;
+                })
+                .collect(Collectors.toList());
+    }
+
+
+
+    // login
+    @PostMapping("/register")
+    public Utilisateur register(@RequestBody Utilisateur utilisateur) {
+
+        return utilisateurRepository.save(utilisateur);
+    }
     @PostMapping("/login")
-    public boolean login(@RequestBody Utilisateur utilisateur) {
+    public String login(@RequestBody Utilisateur utilisateur) {
         Optional<Utilisateur> utilisateurOpt = utilisateurRepository.findByUsername(utilisateur.getUsername());
-        return utilisateurOpt.isPresent() && utilisateurOpt.get().getPassword().equals(utilisateur.getPassword());
+        if( utilisateurOpt.isPresent() && utilisateurOpt.get().getPassword().equals(utilisateur.getPassword())){
+
+            if(utilisateurOpt.get().getRole().equals("admin")){
+                return "admin";
+            }else {
+                return utilisateurOpt.get().getEntite();
+            }
+
+        }else{
+            return "no";
+        }
+
+
     }
 
 
