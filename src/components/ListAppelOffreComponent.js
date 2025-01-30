@@ -10,11 +10,18 @@ const [fitre, setfitre] = useState('')
 const [appelOffre, setAppelOffre] = useState([])
 const {enttt} = useParams();
 
+const [totals, setTotals] = useState({
+  totalLance: 0,
+  totalTransmisCe: 0,
+  totalEnCoursExamen: 0,
+  totalJuge: 0
+});
+
 const ent = "no"
   useEffect(() => {
     
         getAllAppelOffre(entiteF,typeMarcheF,fitre);
-        
+        getDashboardData(entiteF); // Appel avec l'entité sélectionnée
     }, [entiteF, typeMarcheF,fitre])
 
     const getAllAppelOffre = (entiteF,typeMarcheF,fitre) => {
@@ -27,6 +34,38 @@ const ent = "no"
             console.log(error);
         })
     } 
+
+    const getDashboardData = (entite) => {
+      AppelOffreService.getDashboard(entite).then((response) => {
+          const data = response.data;
+          if (data.length === 1 && data[0].entite === "Total") {
+              // Si la réponse contient un seul objet avec "Total" comme entité, afficher les totaux globaux
+              const row = data[0];
+              setTotals({
+                  totalLance: row.appelOffresLance,
+                  totalTransmisCe: row.appelOffresTransmisCe,
+                  totalEnCoursExamen: row.appelOffresEnCoursExamen,
+                  totalJuge: row.appelOffresJuge
+              });
+          } else {
+              // Sinon, calculer les totaux par entité
+              const totalLance = data.reduce((acc, row) => acc + row.appelOffresLance, 0);
+              const totalTransmisCe = data.reduce((acc, row) => acc + row.appelOffresTransmisCe, 0);
+              const totalEnCoursExamen = data.reduce((acc, row) => acc + row.appelOffresEnCoursExamen, 0);
+              const totalJuge = data.reduce((acc, row) => acc + row.appelOffresJuge, 0);
+  
+              setTotals({
+                  totalLance,
+                  totalTransmisCe,
+                  totalEnCoursExamen,
+                  totalJuge
+              });
+          }
+      }).catch(error => {
+          console.log(error);
+      });
+  };
+  
 
 const deleteappelOffre = (appelOffreId) => {
     // Afficher une boîte de dialogue de confirmation
@@ -97,6 +136,19 @@ const deleteappelOffre = (appelOffreId) => {
         <div className="col-3">
             <select
                 className="form-select"
+                value={fitre}
+                onChange={(e) => setfitre(e.target.value)}
+            >
+                <option selected>Situation</option>
+                <option value="ce">Appel d'Offre Transmis à la Commission</option>
+                <option value="ouv">Appel d'Offre Lancé</option>
+                <option value="jug">Appel d'Offre Jugé</option>
+
+            </select>
+        </div>
+        <div className="col-3">
+            <select
+                className="form-select"
                 value={typeMarcheF}
                 onChange={(e) => settypeMarcheF(e.target.value)}
             >
@@ -106,27 +158,37 @@ const deleteappelOffre = (appelOffreId) => {
                 <option value="T">Travaux</option>
             </select>
         </div>
-        <div className="col-3">
-            <select
-                className="form-select"
-                value={fitre}
-                onChange={(e) => setfitre(e.target.value)}
-            >
-                <option selected>Filtre</option>
-                <option value="ce">Appel Offre Transmis commission </option>
-                <option value="ouv">Appel Offre Lancer</option>
-                <option value="jug">Appel Offre jug </option>
-            </select>
-        </div>
+
         <div className="col-2">
-        <div className="col text-end">
-                <p>
-                <strong>
-                    Total des appels d'offre : <span style={{ color: 'red' }}>{appelOffre.length}</span>
-                </strong>
-                </p>
-                </div>
-        </div>
+    <div className="col text-end">
+          <p>
+          <strong>
+              Total des Appels d'Offres : <span style={{ color: 'red' }}> {appelOffre.length}</span>
+          </strong>
+      </p>
+
+      <p>
+          <strong>
+              Total Transmis à la Commission : <span style={{ color: 'red' }}> {totals.totalTransmisCe}</span>
+          </strong>
+      </p>
+
+      <p>
+          <strong>
+              Total Lancés : <span style={{ color: 'red' }}> {totals.totalLance}</span>
+          </strong>
+      </p>
+
+      <p>
+          <strong>
+              Total Jugés : <span style={{ color: 'red' }}> {totals.totalJuge}</span>
+          </strong>
+      </p>
+
+
+    </div>
+</div>
+
         
         <div className="col-1 text-end">
             <Link  to={`/add-appeloffre/${entt}`} className="btn btn-primary">

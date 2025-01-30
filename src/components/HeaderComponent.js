@@ -19,7 +19,7 @@ const HeaderComponent = () => {
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     {/* Logo ou titre */}
                     <a href="#" className="navbar-brand">
-                        Appel d'Offre Application
+                    Application d'Appels d'Offres
                     </a>
 
                     {/* Liens de navigation */}

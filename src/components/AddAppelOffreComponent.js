@@ -326,7 +326,7 @@ const AddAppelOffreComponent = () => {
                                 </div>
                                         <div>
                                 
-                                        <button className="btn btn-danger"  onClick={handleCancel}   >      Cancel    </button>                                <button className = "btn btn-success" style={{ marginLeft: "30px" }} onClick = {(e) => saveOrUpdatedAppelOffre(e)} >Submit </button>
+                                        <button className="btn btn-danger"  onClick={handleCancel}   >      Annuler     </button>                                <button className = "btn btn-success" style={{ marginLeft: "30px" }} onClick = {(e) => saveOrUpdatedAppelOffre(e)} >Valider  </button>
                                        </div>
                             </form>
 

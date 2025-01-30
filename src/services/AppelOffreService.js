@@ -46,7 +46,11 @@ updateappelOffre(appelOffreId, appelOffre){
 deleteappelOffre(appelOffreId){
     return axios.delete(AppelOffre_BASE_REST_API_URL + '/' + appelOffreId);
 }
-
+getDashboard(entite) {
+  return axios.get(AppelOffre_BASE_REST_API_URL + '/dashboards', {
+      params: { entite }
+  });
+}
 getdashboard(){
    return axios.get(AppelOffre_BASE_REST_API_URL + '/dashboard');
 }
