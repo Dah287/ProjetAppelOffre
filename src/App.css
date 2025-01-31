@@ -79,3 +79,56 @@ buttongg {
   text-align: center;
 }
 
+.responsive-th {
+  width: 50px !important; /* ajuster la largeur */
+  font-size: 10px !important; /* optionnel pour réduire la taille du texte */
+}
+
+@media only screen and (max-width: 1280px) {
+  th, td {
+    font-size: 10px;
+    padding: 5px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .btnn {
+
+    font-size: 1px;
+  
+  }
+  .small-button {
+    font-size: 10px !important;
+    width: 40px !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+
+  .small-buttonn {
+    font-size: 10px !important;
+    width: 50px !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    margin-left: 5px !important;
+  }
+  .responsive-th {
+    width: 10px !important; /* ajuster la largeur */
+    font-size: 10px !important; /* optionnel pour réduire la taille du texte */
+  }
+
+  .responsive-total-stats {
+    font-size: 12px !important; /* Réduit la taille du texte sur petits écrans */
+  }
+  .responsive-col {
+    padding: 0px !important; /* Ajuste l'espacement pour les petits écrans */
+  }
+  .responsive-btn {
+    font-size: 11px !important;  /* Réduit la taille du texte sur petits écrans */
+    padding: 5px 10px !important; /* Ajuste le padding sur petits écrans */
+    width: 100% !important; /* Fait en sorte que le bouton prenne toute la largeur */
+  }
+}

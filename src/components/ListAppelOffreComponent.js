@@ -14,7 +14,7 @@ const [totals, setTotals] = useState({
   totalLance: 0,
   totalTransmisCe: 0,
   totalEnCoursExamen: 0,
-  totalJuge: 0
+  totalJuge: 0,
 });
 
 const ent = "no"
@@ -37,34 +37,51 @@ const ent = "no"
 
     const getDashboardData = (entite) => {
       AppelOffreService.getDashboard(entite).then((response) => {
-          const data = response.data;
-          if (data.length === 1 && data[0].entite === "Total") {
-              // Si la réponse contient un seul objet avec "Total" comme entité, afficher les totaux globaux
-              const row = data[0];
+        const data = response.data;
+    
+        // Débogage : Afficher les données reçues
+        console.log("Données reçues:", data);
+        console.log("Entité sélectionnée:", entite);
+    
+        if (data.length > 0) {
+          if (entite) {
+            // Recherche des données pour l'entité spécifique
+            const entityData = data.find(row => row.entite === entite);
+            if (entityData) {
+              console.log("Données de l'entité trouvées:", entityData);
               setTotals({
-                  totalLance: row.appelOffresLance,
-                  totalTransmisCe: row.appelOffresTransmisCe,
-                  totalEnCoursExamen: row.appelOffresEnCoursExamen,
-                  totalJuge: row.appelOffresJuge
+                totalAppelOffres: entityData["Total des Appels d'Offres"],
+                totalLance: entityData["Total Lancés"],
+                totalTransmisCe: entityData["Total Transmis à la Commission"],
+                totalJuge: entityData["Total Jugés"],
+                totalEnCoursExamen: entityData["appelOffresEnCoursExamen"]
               });
+            } else {
+              console.log("Aucune donnée trouvée pour l'entité:", entite);
+            }
           } else {
-              // Sinon, calculer les totaux par entité
-              const totalLance = data.reduce((acc, row) => acc + row.appelOffresLance, 0);
-              const totalTransmisCe = data.reduce((acc, row) => acc + row.appelOffresTransmisCe, 0);
-              const totalEnCoursExamen = data.reduce((acc, row) => acc + row.appelOffresEnCoursExamen, 0);
-              const totalJuge = data.reduce((acc, row) => acc + row.appelOffresJuge, 0);
-  
+            // Recherche des totaux globaux
+            const globalData = data.find(row => row.entite === "Total");
+            if (globalData) {
+              console.log("Données globales trouvées:", globalData);
               setTotals({
-                  totalLance,
-                  totalTransmisCe,
-                  totalEnCoursExamen,
-                  totalJuge
+                totalAppelOffres: globalData["appelOffresTotal"],
+                totalLance: globalData["appelOffresLance"],
+                totalTransmisCe: globalData["appelOffresTransmisCe"],
+                totalJuge: globalData["appelOffresJuge"],
+                totalEnCoursExamen: globalData["appelOffresEnCoursExamen"]
               });
+            } else {
+              console.log("Aucune donnée globale trouvée.");
+            }
           }
-      }).catch(error => {
-          console.log(error);
+        } else {
+          console.log("Aucune donnée reçue.");
+        }
+      }).catch((error) => {
+        console.error("Erreur lors de la récupération des données:", error);
       });
-  };
+    };
   
 
 const deleteappelOffre = (appelOffreId) => {
@@ -112,91 +129,94 @@ const deleteappelOffre = (appelOffreId) => {
 
     
     <div className="container-fluid">
-    <h2 className="text-center">Liste des Appels d'Offres</h2>
+    
 <br></br>
     {/* Filtres */}
-    <div className="row my-2">
-        <div className="col-3">
-            <select
-                className="form-select"
-                value={entiteF}
-                onChange={(e) => setEntiteF(e.target.value)}
-            >
-                <option selected>ENTITE</option>
-                <option value="DPF">DPF</option>
-                <option value="DGR">DGR</option>
-                <option value="DA">DA</option>
-                <option value="DDA">DDA</option>
-              
-                <option value="DRH">DRH</option>
-                <option value="SAICG">SAICG</option>
-                <option value="SMG">SMG</option>
-            </select>
-        </div>
-        <div className="col-3">
-            <select
-                className="form-select"
-                value={fitre}
-                onChange={(e) => setfitre(e.target.value)}
-            >
-                <option selected>Situation</option>
-                <option value="ce">Appel d'Offre Transmis à la Commission</option>
-                <option value="ouv">Appel d'Offre Lancé</option>
-                <option value="jug">Appel d'Offre Jugé</option>
-
-            </select>
-        </div>
-        <div className="col-3">
-            <select
-                className="form-select"
-                value={typeMarcheF}
-                onChange={(e) => settypeMarcheF(e.target.value)}
-            >
-                <option selected>TYPE MARCHE</option>
-                <option value="F">Fourniture</option>
-                <option value="S">Service</option>
-                <option value="T">Travaux</option>
-            </select>
-        </div>
-
-        <div className="col-2">
-    <div className="col text-end">
-          <p>
-          <strong>
-              Total des Appels d'Offres : <span style={{ color: 'red' }}> {appelOffre.length}</span>
-          </strong>
-      </p>
-
-      <p>
-          <strong>
-              Total Transmis à la Commission : <span style={{ color: 'red' }}> {totals.totalTransmisCe}</span>
-          </strong>
-      </p>
-
-      <p>
-          <strong>
-              Total Lancés : <span style={{ color: 'red' }}> {totals.totalLance}</span>
-          </strong>
-      </p>
-
-      <p>
-          <strong>
-              Total Jugés : <span style={{ color: 'red' }}> {totals.totalJuge}</span>
-          </strong>
-      </p>
-
-
+    <div className="container-fluid">
+  <h2 className="text-center">Liste des Appels d'Offres</h2>
+  <br />
+  {/* Filtres et Statistiques */}
+  <div className="row my-2">
+    <div className="col-12 col-md-3 mb-2">
+      <select
+        className="form-select"
+        value={entiteF}
+        onChange={(e) => setEntiteF(e.target.value)}
+      >
+        <option value="">ENTITE</option>
+        <option value="DPF">DPF</option>
+        <option value="DGR">DGR</option>
+        <option value="DA">DA</option>
+        <option value="DDA">DDA</option>
+        <option value="DRH">DRH</option>
+        <option value="SAICG">SAICG</option>
+        <option value="SMG">SMG</option>
+      </select>
     </div>
+    
+    <div className="col-12 col-md-3 mb-2">
+      <select
+        className="form-select"
+        value={fitre}
+        onChange={(e) => setfitre(e.target.value)}
+      >
+        <option selected>Situation</option>
+        <option value="pre">Appel d'Offre en cours de Préparation</option>
+        <option value="ce">Appel d'Offre Transmis à la Commission</option>
+        <option value="ouv">Appel d'Offre Lancé</option>
+        <option value="jug">Appel d'Offre Jugé</option>
+      </select>
+    </div>
+    
+    <div className="col-12 col-md-3 mb-2">
+      <select
+        className="form-select"
+        value={typeMarcheF}
+        onChange={(e) => settypeMarcheF(e.target.value)}
+      >
+        <option selected>TYPE MARCHE</option>
+        <option value="F">Fourniture</option>
+        <option value="S">Service</option>
+        <option value="T">Travaux</option>
+      </select>
+    </div>
+    
+    <div className="col-12 col-md-2 mb-2 responsive-col">
+      <div className="col text-end responsive-total-stats">
+        <p>
+          <strong>
+            Total des Appels d'Offres : <span style={{ color: 'red' }}> {totals.totalAppelOffres}</span>
+          </strong>
+        </p>
+
+        <p>
+          <strong>
+            Total Transmis à la Commission : <span style={{ color: 'red' }}> {totals.totalTransmisCe}</span>
+          </strong>
+        </p>
+
+        <p>
+          <strong>
+            Total Lancés : <span style={{ color: 'red' }}> {totals.totalLance}</span>
+          </strong>
+        </p>
+
+        <p>
+          <strong>
+            Total Jugés : <span style={{ color: 'red' }}> {totals.totalJuge}</span>
+          </strong>
+        </p>
+      </div>
+    </div>
+
+    <div className="col-12 col-md-1 text-end mb-2">
+      <Link to={`/add-appeloffre/${entt}`} className="btn btn-primary responsive-btn">
+        Ajouter AO
+      </Link>
+    </div>
+  </div>
 </div>
 
-        
-        <div className="col-1 text-end">
-            <Link  to={`/add-appeloffre/${entt}`} className="btn btn-primary">
-            Ajouter AO
-            </Link>
-        </div>
-        
-    </div>
 <br></br>
     {/* Table */}
     <div className="table-responsive">
@@ -204,7 +224,7 @@ const deleteappelOffre = (appelOffreId) => {
   <thead>
     <tr>
       <th style={{ textAlign: "center" }}>Entité</th>
-      <th style={{ textAlign: "center", width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Objet</th>
+      <th  style={{ textAlign: "center", width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Objet</th>
       <th style={{ textAlign: "center",width: "80px" }}>Type Marché</th>
       <th style={{ textAlign: "center" }}>Estimation</th>
       <th style={{ textAlign: "center",width: "80px" }}>PME</th>
@@ -262,7 +282,7 @@ const deleteappelOffre = (appelOffreId) => {
           <td style={{ width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {appel.objet}
           </td>
-          <td>{appel.typeMarche}</td>
+          <td style={{ textAlign: "center"}}>{appel.typeMarche}</td>
           <td>{appel.estimation?.toLocaleString('fr-MA')}</td>
           <td>{appel.pme}</td>
           <td>{appel.moisPublicationPrevisionnelle}</td>
@@ -275,7 +295,7 @@ const deleteappelOffre = (appelOffreId) => {
           <td>{appel.observations}</td>
           <td style={{  alignItems: "center" ,width: "160px"}}>
             <Link
-              className="btn btn-info"
+              className="btn btn-info small-buttonn"
               style={{
                 
                 fontSize: "12px",
@@ -289,7 +309,7 @@ const deleteappelOffre = (appelOffreId) => {
               Modifier
             </Link>
             <button
-              className="btn btn-danger"
+              className="btn btn-danger small-buttonn"
               onClick={() => deleteappelOffre(appel.id)}
               style={{
                 
