@@ -130,6 +130,17 @@ public class AppelOffreController {
                 return appelOffreRepository.findByDateJugementIsNotNull(); // Filtrer par dateOuvertureReelle non nulle
             }
 
+        }else if ("pre".equals(fitre)) {
+            // Si filtre = "pre", récupère les lignes où datetransmisCe est nulle
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarcheAndDatetransmisCeIsNull(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntiteAndDatetransmisCeIsNull(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarcheAndDatetransmisCeIsNull(typeMarche);
+            } else {
+                return appelOffreRepository.findByDatetransmisCeIsNull(); // Filtrer par datetransmisCe nulle
+            }
         }
         else {
             // Si fitre est nul ou non reconnu, appliquer les autres filtres comme avant
@@ -210,7 +221,31 @@ public class AppelOffreController {
                     .collect(Collectors.toList());
         }
 
-        return appelOffres.stream()
+        // Calcul total global si aucune entité spécifique
+        Map<String, Object> globalRow = new HashMap<>();
+        if (entite == null || entite.isEmpty()) {
+            globalRow.put("entite", "Total");
+
+            long totalAppelOffres = appelOffres.size();
+            long totalAppelOffresLance = appelOffres.stream()
+                    .filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
+                    .count();
+            long totalAppelOffresTransmisCe = appelOffres.stream()
+                    .filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
+                    .count();
+            long totalAppelOffresJuge = appelOffres.stream()
+                    .filter(a -> a.getDateJugement() != null)
+                    .count();
+            long totalAppelOffresEnCoursExamen = appelOffres.size() - (totalAppelOffresLance + totalAppelOffresTransmisCe + totalAppelOffresJuge);
+
+            globalRow.put("appelOffresTotal", totalAppelOffres);
+            globalRow.put("appelOffresLance", totalAppelOffresLance);
+            globalRow.put("appelOffresTransmisCe", totalAppelOffresTransmisCe);
+            globalRow.put("appelOffresJuge", totalAppelOffresJuge);
+            globalRow.put("appelOffresEnCoursExamen", totalAppelOffresEnCoursExamen);
+        }
+
+        List<Map<String, Object>> result = appelOffres.stream()
                 .collect(Collectors.groupingBy(AppelOffre::getEntite))
                 .entrySet().stream()
                 .map(entry -> {
@@ -232,18 +267,28 @@ public class AppelOffreController {
                             .filter(a -> a.getDateJugement() != null)
                             .count();
 
-                    // En cours d'examen (peut-être un autre critère ou une valeur par défaut)
-                    long appelOffresEnCoursExamen = 0; // Ajoutez la logique nécessaire pour ce cas
+                    // En cours d'examen (non encore lancés, transmis ou jugés)
+                    long appelOffresEnCoursExamen = entry.getValue().size() - (appelOffresLance + appelOffresTransmisCe + appelOffresJuge);
 
-                    row.put("appelOffresLance", appelOffresLance);
-                    row.put("appelOffresTransmisCe", appelOffresTransmisCe);
-                    row.put("appelOffresLance", appelOffresLance);
+                    // Ajouter les totaux par entité
+                    row.put("Total des Appels d'Offres", entry.getValue().size());
+                    row.put("Total Lancés", appelOffresLance);
+                    row.put("Total Transmis à la Commission", appelOffresTransmisCe);
+                    row.put("Total Jugés", appelOffresJuge);
                     row.put("appelOffresEnCoursExamen", appelOffresEnCoursExamen);
-                    row.put("appelOffresJuge", appelOffresJuge);
+
                     return row;
                 })
                 .collect(Collectors.toList());
+
+        // Ajouter la ligne de total global si l'entité n'est pas spécifiée
+        if (entite == null || entite.isEmpty()) {
+            result.add(0, globalRow);
+        }
+
+        return result;
     }
+
 
 
 

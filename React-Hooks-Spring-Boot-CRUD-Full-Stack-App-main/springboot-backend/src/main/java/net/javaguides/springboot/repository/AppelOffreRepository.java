@@ -69,5 +69,8 @@ public interface AppelOffreRepository extends JpaRepository<AppelOffre,Long> {
     List<AppelOffre> findByTypeMarcheAndDateJugementIsNotNull(String typeMarche);
     // Méthode pour récupérer toutes les lignes où dateJugement est non nul
     List<AppelOffre> findByDateJugementIsNotNull();
-
+    List<AppelOffre> findByEntiteAndTypeMarcheAndDatetransmisCeIsNull(String entite, String typeMarche);
+    List<AppelOffre> findByEntiteAndDatetransmisCeIsNull(String entite);
+    List<AppelOffre> findByTypeMarcheAndDatetransmisCeIsNull(String typeMarche);
+    List<AppelOffre> findByDatetransmisCeIsNull();
 }
