@@ -28,8 +28,10 @@ const DashboardAppelOffreComponent = () => {
     };
 
     return (
-        <div className="container-fluid">
-            <h2 className="text-center mt-4 mb-4 fs-2">SUIVI DU PROGRAMME PREVISIONNEL DES OPERATIONS NOUVELLES A LANCER PAR <br /> L’ORMVAD</h2>
+        <div >
+            <h4 className="dashboard-title text-center mt-4 mb-4 fs-4">
+  SUIVI DU PROGRAMME PREVISIONNEL DES OPERATIONS NOUVELLES A LANCER PAR <br /> L’ORMVAD
+</h4>
 
             {loading ? (
                 <p className="text-center fs-4">Chargement des données...</p>
@@ -40,7 +42,7 @@ const DashboardAppelOffreComponent = () => {
                 </div>
             ) : (
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped fs-5">
+                 <table className="table table-bordered table-striped" >
                         <thead className="table-dark">
                             <tr>
                                 <th className="fs-6">Entité</th>

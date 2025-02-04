@@ -131,4 +131,169 @@ buttongg {
     padding: 5px 10px !important; /* Ajuste le padding sur petits écrans */
     width: 100% !important; /* Fait en sorte que le bouton prenne toute la largeur */
   }
+  .stats-card p {
+    margin: 8px 0;
+    font-size: 1px;
+    font-weight: bold;
+  }
+  .stats-card p {
+    font-size: 10px !important; /* Ajustement spécifique pour les paragraphes */
+  }
+  .btn-ajouter-ao {
+    width: 100% !important; /* Le bouton prendra toute la largeur de son conteneur sur les petits écrans */
+    font-size: 12px !important; /* Réduit la taille de la police */
+    padding: 8px 5px !important; /* Ajuste les marges pour une meilleure présentation */
+  }
 }
+
+.stats-card {
+  background-color: #f0f4f8;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stat-value {
+  color: red;
+}
+
+.stats-card p {
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+.row.my-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Permet aux colonnes de se repositionner si l'écran est petit */
+}
+.btn-ajouter-ao {
+  background-color: #4CAF50; /* Couleur verte douce */
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-decoration: none; /* Supprime toute ligne */
+  transition: all 0.3s ease;
+}
+
+.btn-ajouter-ao:hover {
+  background-color: #45a049; /* Couleur plus foncée au survol */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-ajouter-ao:active {
+  background-color: #3e8e41;
+  transform: translateY(0px);
+}
+
+/* Conteneur principal des filtres */
+.filter-section {
+  padding: 20px;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre des filtres */
+.filter-title h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Conteneur des options de filtre */
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Item de filtre (select box) */
+.filter-item {
+  flex: 1 1 30%;
+  min-width: 200px;
+  margin-bottom: 15px;
+}
+
+/* Label des filtres */
+.filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Dropdown de filtre */
+.filter-dropdown {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  font-size: 14px;
+  color: #555;
+  transition: border-color 0.3s ease;
+}
+
+/* Changer la couleur de la bordure quand l'élément est actif */
+.filter-dropdown:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Bouton "Ajouter un Appel d'Offre" */
+.add-ao-button {
+  margin-top: 20px;
+  text-align: center;
+}
+/* Style des éléments de filtre (sélecteurs) */
+.filter-select {
+  padding: 12px 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #555;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Effet de survol sur les filtres */
+.filter-select:hover {
+  border-color: #28a745;
+  transform: scale(1.02);
+}
+
+/* Effet au clic sur les filtres */
+.filter-select:active {
+  border-color: #218838;
+}
+
+/* Style des cartes des filtres */
+.filter-card {
+  padding: 15px;
+  background-color: #f0f4f8;;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du label des filtres */
+.filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+
+

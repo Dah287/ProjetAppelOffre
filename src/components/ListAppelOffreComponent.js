@@ -133,17 +133,14 @@ const deleteappelOffre = (appelOffreId) => {
 <br></br>
     {/* Filtres */}
     <div className="container-fluid">
-  <h2 className="text-center">Liste des Appels d'Offres</h2>
+    <h2 className="filter-section-title text-center">Liste des Appels d'Offres</h2>
   <br />
-  {/* Filtres et Statistiques */}
   <div className="row my-2">
-    <div className="col-12 col-md-3 mb-2">
-      <select
-        className="form-select"
-        value={entiteF}
-        onChange={(e) => setEntiteF(e.target.value)}
-      >
-        <option value="">ENTITE</option>
+  <div className="col-12 col-md-3 mb-3">
+    <div className="filter-card">
+      <label className="filter-label">Entité</label>
+      <select className="form-select filter-select" value={entiteF} onChange={(e) => setEntiteF(e.target.value)}>
+        <option value="">Sélectionner une entité</option>
         <option value="DPF">DPF</option>
         <option value="DGR">DGR</option>
         <option value="DA">DA</option>
@@ -153,69 +150,53 @@ const deleteappelOffre = (appelOffreId) => {
         <option value="SMG">SMG</option>
       </select>
     </div>
-    
-    <div className="col-12 col-md-3 mb-2">
-      <select
-        className="form-select"
-        value={fitre}
-        onChange={(e) => setfitre(e.target.value)}
-      >
-        <option selected>Situation</option>
+  </div>
+
+  {/* Filter: Situation */}
+  <div className="col-12 col-md-3 mb-3">
+    <div className="filter-card">
+      <label className="filter-label">Situation</label>
+      <select className="form-select filter-select" value={fitre} onChange={(e) => setfitre(e.target.value)}>
+        <option value="">Sélectionner une situation</option>
         <option value="pre">Appel d'Offre en cours de Préparation</option>
         <option value="ce">Appel d'Offre Transmis à la Commission</option>
         <option value="ouv">Appel d'Offre Lancé</option>
         <option value="jug">Appel d'Offre Jugé</option>
       </select>
     </div>
-    
-    <div className="col-12 col-md-3 mb-2">
-      <select
-        className="form-select"
-        value={typeMarcheF}
-        onChange={(e) => settypeMarcheF(e.target.value)}
-      >
-        <option selected>TYPE MARCHE</option>
+  </div>
+
+  {/* Filter: Type Marché */}
+  <div className="col-12 col-md-3 mb-3">
+    <div className="filter-card">
+      <label className="filter-label">Type Marché</label>
+      <select className="form-select filter-select" value={typeMarcheF} onChange={(e) => settypeMarcheF(e.target.value)}>
+        <option value="">Sélectionner un type de marché</option>
         <option value="F">Fourniture</option>
         <option value="S">Service</option>
         <option value="T">Travaux</option>
       </select>
     </div>
-    
-    <div className="col-12 col-md-2 mb-2 responsive-col">
-      <div className="col text-end responsive-total-stats">
-        <p>
-          <strong>
-            Total des Appels d'Offres : <span style={{ color: 'red' }}> {totals.totalAppelOffres}</span>
-          </strong>
-        </p>
+  </div>
 
-        <p>
-          <strong>
-            Total Transmis à la Commission : <span style={{ color: 'red' }}> {totals.totalTransmisCe}</span>
-          </strong>
-        </p>
 
-        <p>
-          <strong>
-            Total Lancés : <span style={{ color: 'red' }}> {totals.totalLance}</span>
-          </strong>
-        </p>
-
-        <p>
-          <strong>
-            Total Jugés : <span style={{ color: 'red' }}> {totals.totalJuge}</span>
-          </strong>
-        </p>
+    <div className="col-12 col-md-2 mb-2">
+      <div className="stats-card">
+        <p><strong>Total des Appels d'Offres : <span className="stat-value">{totals.totalAppelOffres}</span></strong></p>
+        <p><strong>Total Transmis à la Commission : <span className="stat-value">{totals.totalTransmisCe}</span></strong></p>
+        <p><strong>Total Lancés : <span className="stat-value">{totals.totalLance}</span></strong></p>
+        <p><strong>Total Jugés : <span className="stat-value">{totals.totalJuge}</span></strong></p>
       </div>
     </div>
 
     <div className="col-12 col-md-1 text-end mb-2">
-      <Link to={`/add-appeloffre/${entt}`} className="btn btn-primary responsive-btn">
-        Ajouter AO
+      <Link to={`/add-appeloffre/${entt}`} className="btn-ajouter-ao">
+              Ajouter AO
       </Link>
-    </div>
+</div>
   </div>
 </div>
+
 
 <br></br>
     {/* Table */}

@@ -15,12 +15,23 @@ const HeaderComponent = () => {
     return (
         <div>
         <header>
-            <nav className="navbar navbar-expand-md navbar-dark bg-primary px-3">
+            <nav className="navbar navbar-expand-md navbar-dark  px-3"style={{ backgroundColor: '#4CAF50' }} >
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     {/* Logo ou titre */}
-                    <a href="#" className="navbar-brand">
-                    Application d'Appels d'Offres
-                    </a>
+                    <a href="#" className="navbar-brand d-flex align-items-center">
+                                <img
+                                    src="/ormvad_1.jpg"  // Chemin relatif à la racine du projet
+                                    alt="Logo"
+                                    className="me-2"
+                                    style={{ 
+                                        width: '40px', 
+                                        height: '40px', 
+                                        border: '3px solid #fff',  // Bordure blanche
+                                        borderRadius: '12px'  // Coins arrondis
+                                    }} // Ajuste la taille selon tes besoins
+                                />
+    <span className="fw-bold text-white">Application d'Appels d'Offres</span>
+</a>
 
                     {/* Liens de navigation */}
                     <div className="d-flex align-items-center">
@@ -31,9 +42,32 @@ const HeaderComponent = () => {
                             */}
                             {user && location.pathname !== '/login' && user.role === 'admin' && (
                                 <>
-                                    <Link className="nav-link text-white mx-2" to="/dashboard"> <strong>RECAP</strong></Link>
-                                    <Link className="nav-link text-white mx-2" to="/appelOffres"><strong>Liste des Appels d'Offres</strong></Link>
-                                </>
+    <Link
+        className="nav-link text-white mx-2"
+        to="/dashboard"
+        style={{
+            border: '2px solid #fff',      // Ajout de la bordure
+            borderRadius: '12px',          // Arrondir les bords
+            padding: '6px 12px',           // Ajouter un peu de padding pour rendre le lien plus large
+            transition: 'all 0.3s ease',   // Animation pour un effet au survol
+        }}
+    >
+        <strong>RECAP</strong>
+    </Link>
+    <Link
+        className="nav-link text-white mx-2"
+        to="/appelOffres"
+        style={{
+            border: '2px solid #fff',      // Ajout de la bordure
+            borderRadius: '12px',          // Arrondir les bords
+            padding: '6px 12px',           // Ajouter un peu de padding pour rendre le lien plus large
+            transition: 'all 0.3s ease',   // Animation pour un effet au survol
+        }}
+    >
+        <strong>Liste des Appels d'Offres</strong>
+    </Link>
+</>
+
                             )}                 
                     </div>
 
@@ -48,6 +82,12 @@ const HeaderComponent = () => {
                             {/* Bouton déconnexion */}
                             <button
                                 className="btn btn-outline-light mx-4"
+                                style={{
+                                    border: '2px solid #fff',      // Ajout de la bordure
+                                    borderRadius: '12px',          // Arrondir les bords
+                                    padding: '6px 12px',           // Ajouter un peu de padding pour rendre le lien plus large
+                                    transition: 'all 0.3s ease',   // Animation pour un effet au survol
+                                }}
                                 onClick={handleLogout}
                             >
                                 Déconnexion
