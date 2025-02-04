@@ -10,6 +10,7 @@ import DashboardAppelOffreComponent from './components/DashboardAppelOffreCompon
 import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import LoginComponent from './components/LoginComponent';
 import ListAppelOffreParEntiteComponent from './components/ListAppelOffreParEntiteComponent';
+import UserManagement from './components/UserManagement';
 
 function App() {
 
@@ -41,7 +42,7 @@ function App() {
               <Route path = "/dashboard" component = {DashboardAppelOffreComponent}></Route>
               <Route path = "/login" component = {LoginComponent}></Route>
               <Route path = "/ListAppelOffreParEntite/:entitee" component = {ListAppelOffreParEntiteComponent}></Route>
-
+              <Route path = "/UserManagement" component = {UserManagement}></Route>
             </Switch>
             {/* <FooterComponent /> */}
         </div>        
