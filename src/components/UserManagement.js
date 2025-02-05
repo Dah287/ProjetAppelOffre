@@ -44,6 +44,11 @@ function UserManagement() {
   <div className="input-group">
     <label className="filter-label">Nom d'utilisateur</label>
     <input
+     style={{
+                
+        borderRadius: "8px"
+      
+      }}
       type="text"
       placeholder="Nom d'utilisateur"
       value={newUser.username}
@@ -55,6 +60,11 @@ function UserManagement() {
   <div className="input-group">
     <label className="filter-label">Mot de passe</label>
     <input
+     style={{
+                
+        borderRadius: "8px"
+      
+      }}
       type="password"
       placeholder="Mot de passe"
       value={newUser.password}
@@ -66,6 +76,11 @@ function UserManagement() {
   <div className="input-group">
     <label className="filter-label">Rôle</label>
     <select
+     style={{
+                
+        borderRadius: "8px"
+      
+      }}
       value={newUser.role}
       onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
     >
@@ -80,6 +95,11 @@ function UserManagement() {
   <div className="input-group">
     <label className="filter-label">Entité</label>
     <select
+     style={{
+                
+        borderRadius: "8px"
+      
+      }}
       value={newUser.entite}
       onChange={(e) => setNewUser({ ...newUser, entite: e.target.value })}
     >
@@ -132,7 +152,7 @@ function UserManagement() {
                 <td>{user.role}</td>
                 <td>{user.entite}</td>
                 <td>
-                  <button onClick={() => handleDeleteUser(user.id)} className="btn btn-danger">Supprimer</button>
+                  <button onClick={() => handleDeleteUser(user.id)} className="btn btn-danger" style={{ backgroundColor: "#28a745" }}>Supprimer</button>
                 </td>
               </tr>
             ))

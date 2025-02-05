@@ -78,7 +78,7 @@ const HeaderComponent = () => {
                             {/* Logo utilisateur */}
                             <i className="bi bi-person-circle text-white mx-2" style={{ fontSize: '1.5rem' , marginLeft: '8px'}}></i>
                             {/* Nom de l'utilisateur */}
-                            <span className="text-white mx-2">{user.role}</span>
+                            <span className="text-white mx-2">{user.nom}</span>
                             {/* Bouton déconnexion */}
                             <button
                                 className="btn btn-outline-light mx-4"

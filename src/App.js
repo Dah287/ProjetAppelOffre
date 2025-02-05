@@ -12,9 +12,11 @@ import LoginComponent from './components/LoginComponent';
 import ListAppelOffreParEntiteComponent from './components/ListAppelOffreParEntiteComponent';
 import UserManagement from './components/UserManagement';
 
+import PrivateRoute from './routes/PrivateRoute';
+
 function App() {
 
-  const isAuthenticated = !!localStorage.getItem('user'); // Vérifie si l'utilisateur est connecté
+ // const isAuthenticated = !!localStorage.getItem('user'); // Vérifie si l'utilisateur est connecté
 
   return (
     <div>
@@ -33,17 +35,19 @@ function App() {
               <Route path = "/edit-employee/:id" component = {AddAppelOffreComponent}></Route>
               <Route path = "/dashboard" component = {DashboardAppelOffreComponent}></Route>
             </Switch> */}
-              <Switch>
 
-              <Route exact path = "/" component = {LoginComponent}></Route>
-              <Route path = "/appelOffres" component = {ListAppelOffreComponent}></Route>
-              <Route path = "/add-appeloffre/:entt" component = {AddAppelOffreComponent} ></Route>
-              <Route path = "/edit-employee/:id/:entitee" component = {AddAppelOffreComponent}></Route>
-              <Route path = "/dashboard" component = {DashboardAppelOffreComponent}></Route>
-              <Route path = "/login" component = {LoginComponent}></Route>
-              <Route path = "/ListAppelOffreParEntite/:entitee" component = {ListAppelOffreParEntiteComponent}></Route>
-              <Route path = "/UserManagement" component = {UserManagement}></Route>
-            </Switch>
+
+<Switch>
+  <Route exact path="/" component={LoginComponent}></Route>
+  <PrivateRoute path="/appelOffres" component={ListAppelOffreComponent} />
+  <PrivateRoute path="/add-appeloffre/:entt" component={AddAppelOffreComponent} />
+  <PrivateRoute path="/edit-employee/:id/:entitee" component={AddAppelOffreComponent} />
+  <PrivateRoute path="/dashboard" component={DashboardAppelOffreComponent} />
+  <Route path="/login" component={LoginComponent} />
+  <PrivateRoute path="/ListAppelOffreParEntite/:entitee" component={ListAppelOffreParEntiteComponent} />
+  <PrivateRoute path="/user" component={UserManagement} />
+</Switch>
+
             {/* <FooterComponent /> */}
         </div>        
        

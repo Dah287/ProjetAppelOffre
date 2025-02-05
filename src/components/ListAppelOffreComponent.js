@@ -159,7 +159,7 @@ const deleteappelOffre = (appelOffreId) => {
       <select className="form-select filter-select" value={fitre} onChange={(e) => setfitre(e.target.value)}>
         <option value="">Sélectionner une situation</option>
         <option value="pre">Appel d'Offre en cours de Préparation</option>
-        <option value="ce">Appel d'Offre Transmis à la Commission</option>
+        <option value="ce">Appel d'Offre en Cours de Vérification</option>
         <option value="ouv">Appel d'Offre Lancé</option>
         <option value="jug">Appel d'Offre Jugé</option>
       </select>
@@ -183,7 +183,7 @@ const deleteappelOffre = (appelOffreId) => {
     <div className="col-12 col-md-2 mb-2">
       <div className="stats-card">
         <p><strong>Total des Appels d'Offres : <span className="stat-value">{totals.totalAppelOffres}</span></strong></p>
-        <p><strong>Total Transmis à la Commission : <span className="stat-value">{totals.totalTransmisCe}</span></strong></p>
+        <p><strong>Total En Cours de Vérification : <span className="stat-value">{totals.totalTransmisCe}</span></strong></p>
         <p><strong>Total Lancés : <span className="stat-value">{totals.totalLance}</span></strong></p>
         <p><strong>Total Jugés : <span className="stat-value">{totals.totalJuge}</span></strong></p>
       </div>

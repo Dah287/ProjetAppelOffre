@@ -24,7 +24,7 @@ const LoginComponent = () => {
             AppelOffreService.login(utilisateuropt).then((response) => {
                 console.log(response.data)
                 if(response.data=== "admin"){
-                  localStorage.setItem('user', JSON.stringify({ username, role: 'admin' }));
+                  localStorage.setItem('user', JSON.stringify({ username, role: 'admin' ,nom:'Mr. ANDALOUSSI'}));
                     history.push('/appelOffres')
                 }
                 else if(response.data=== "no"){
@@ -32,7 +32,7 @@ const LoginComponent = () => {
                 }else{
                   let entitee = response.data;
                   setMessage("vert " +entitee)
-                  localStorage.setItem('user', JSON.stringify({ username, role: 'user', entitee }));
+                  localStorage.setItem('user', JSON.stringify({ username, role: 'user',nom: entitee }));
                   history.push(`/ListAppelOffreParEntite/${entitee}`);
                   
              //     <Link className="btn btn-info" to={`/edit-employee/${employee.id}`} >Update</Link>
