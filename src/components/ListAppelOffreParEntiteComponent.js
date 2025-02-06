@@ -116,7 +116,7 @@ const {entitee} = useParams();
       <th style={{ textAlign: "center" }}>Ouverture Reelle</th>
       <th style={{ textAlign: "center" }}>Jugement</th>
       <th style={{ textAlign: "center" }}>Observations</th>
-      <th style={{ textAlign: "center" ,width: "140px"}}>Actions</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -163,37 +163,7 @@ const {entitee} = useParams();
           <td>{appel.dateOuvertureReelle}</td>
           <td>{appel.dateJugement}</td>
           <td>{appel.observations}</td>
-          <td style={{  alignItems: "center" ,width: "160px"}}>
-            <Link
-              className="btn btn-info"
-              style={{
-                
-                fontSize: "12px",
-                width: "50px",
-                paddingLeft : "1px",
-                paddingRight:"1px"
-              
-              }}
-              to={`/edit-employee/${appel.id}/${entitee}`}
-            >
-              Modifier
-            </Link>
-            <button
-              className="btn btn-danger"
-              onClick={() => deleteappelOffre(appel.id)}
-              style={{
-                
-                fontSize: "12px",
-                width: "60px",
-                paddingLeft : "1px",
-                paddingRight:"1px",
-                marginLeft: "10px"
-             
-              }}
-            >
-              Supprimer
-            </button>
-          </td>
+          
         </tr>
       ))}
   </tbody>

@@ -86,7 +86,7 @@ function UserManagement() {
     >
       <option value="">Sélectionner un rôle</option>
       <option value="admin">Admin</option>
-      <option value="soadmiij">Super Admin</option>
+      <option value="sous admin">Sous Admin</option>
       <option value="usernormale">Utilisateur Normal</option>
     </select>
   </div>

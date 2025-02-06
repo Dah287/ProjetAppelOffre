@@ -13,6 +13,7 @@ import ListAppelOffreParEntiteComponent from './components/ListAppelOffreParEnti
 import UserManagement from './components/UserManagement';
 
 import PrivateRoute from './routes/PrivateRoute';
+import ListAppelOffreSAComponent from './components/ListAppelOffreSAComponent';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
   <Route path="/login" component={LoginComponent} />
   <PrivateRoute path="/ListAppelOffreParEntite/:entitee" component={ListAppelOffreParEntiteComponent} />
   <PrivateRoute path="/user" component={UserManagement} />
+  <PrivateRoute path="/ListSA" component={ListAppelOffreSAComponent} />
 </Switch>
 
             {/* <FooterComponent /> */}

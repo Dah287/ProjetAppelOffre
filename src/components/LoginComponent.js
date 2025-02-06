@@ -26,6 +26,9 @@ const LoginComponent = () => {
                 if(response.data=== "admin"){
                   localStorage.setItem('user', JSON.stringify({ username, role: 'admin' ,nom:'Mr. ANDALOUSSI'}));
                     history.push('/appelOffres')
+                }else if(response.data=== "sous admin"){
+                  localStorage.setItem('user', JSON.stringify({ username, role: 'sous admin' ,nom:'Mr. sous admin'}));
+                  history.push('/ListSA')
                 }
                 else if(response.data=== "no"){
                   setMessage("mot de pass ou username incorct")
