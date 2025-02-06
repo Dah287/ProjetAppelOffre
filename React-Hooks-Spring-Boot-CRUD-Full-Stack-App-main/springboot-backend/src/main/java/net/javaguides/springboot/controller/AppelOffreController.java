@@ -305,14 +305,16 @@ public class AppelOffreController {
 
             if(utilisateurOpt.get().getRole().equals("admin")){
                 return "admin";
-            }else {
+            }else if(utilisateurOpt.get().getRole().equals("sous admin")){
+                return "sous admin";
+            } else {
                 return utilisateurOpt.get().getEntite();
             }
+
 
         }else{
             return "no";
         }
-
 
     }
 
