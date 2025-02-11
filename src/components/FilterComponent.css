@@ -1,0 +1,8 @@
+
+  
+@media only screen and (max-width: 1280px) {
+  .filter-card label,
+  .form-select {
+    font-size: 0.8rem !important; ; /* Réduction de la taille du texte */
+  }
+}

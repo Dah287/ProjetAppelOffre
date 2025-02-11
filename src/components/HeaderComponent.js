@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link ,useHistory,useLocation} from 'react-router-dom'
+import './HeaderComponent.css';
 const HeaderComponent = () => {
 
     const user = JSON.parse(localStorage.getItem('user'));
@@ -90,6 +91,7 @@ const HeaderComponent = () => {
                                 }}
                                 onClick={handleLogout}
                             >
+                                
                                 Déconnexion
                             </button>
                         </div>
