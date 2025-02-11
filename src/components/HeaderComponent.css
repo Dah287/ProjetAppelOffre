@@ -13,5 +13,8 @@
     button {
       font-size: 0.9rem;
     }
+    .navheigh{
+        height: 60px !important;
+    }
   }
   

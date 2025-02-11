@@ -131,11 +131,11 @@ const deleteappelOffre = (appelOffreId) => {
     
     <div className="container-fluid">
     
-<br></br>
+
     {/* Filtres */}
     <div className="container-fluid">
     <h2 className="filter-section-title text-center nnn">Liste des Appels d'Offres</h2>
-  <br />
+
   <div className="row my-2">
   <div className="col-12 col-md-3 mb-3">
     <div className="filter-card">
@@ -211,7 +211,7 @@ const deleteappelOffre = (appelOffreId) => {
       <th style={{ textAlign: "center" }}>Estimation</th>
       <th style={{ textAlign: "center",width: "80px" }}>PME</th>
       <th style={{ textAlign: "center" }}>Publication PREV</th>
-      <th style={{ textAlign: "center" }}>Transmis BAM</th>
+     
       <th style={{ textAlign: "center" }}>Transmis commission</th>
       <th style={{ textAlign: "center" }}>Observation MC</th>
       <th style={{ textAlign: "center" ,width: "60px"}}>N° AO</th>
@@ -268,7 +268,7 @@ const deleteappelOffre = (appelOffreId) => {
           <td>{appel.estimation?.toLocaleString('fr-MA')}</td>
           <td>{appel.pme}</td>
           <td>{appel.moisPublicationPrevisionnelle}</td>
-          <td>{appel.dateOuverturePrevisionnelle}</td>
+          {/* <td>{appel.dateOuverturePrevisionnelle}</td> */}
           <td>{appel.datetransmisCe}</td>
           <td>{appel.dateobservationMc}</td>
           <td style={{ textAlign: "center" ,width: "60px"}}>{appel.numero}</td>

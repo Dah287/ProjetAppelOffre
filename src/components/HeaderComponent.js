@@ -16,7 +16,7 @@ const HeaderComponent = () => {
     return (
         <div>
         <header>
-            <nav className="navbar navbar-expand-md navbar-dark  px-3"style={{ backgroundColor: '#4CAF50' }} >
+            <nav className="navbar navbar-expand-md navbar-dark  px-3 navheigh"style={{ backgroundColor: '#4CAF50' }} >
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     {/* Logo ou titre */}
                     <a href="#" className="navbar-brand d-flex align-items-center">
