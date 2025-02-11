@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import AppelOffreService from '../services/AppelOffreService'
 import { Link ,useHistory,useParams} from 'react-router-dom'
 import './FilterComponent.css';
+import * as XLSX from 'xlsx';
+
 
 const ListAppelOffreComponent = () => {
 
@@ -125,6 +127,15 @@ const deleteappelOffre = (appelOffreId) => {
                   
         
     // }
+    const exportToExcel = () => {
+      const worksheet = XLSX.utils.json_to_sheet(appelOffre);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Appels d'Offres");
+    
+      // Écrire le fichier Excel
+      XLSX.writeFile(workbook, "Appels_d_Offres.xlsx");
+    };
+    
 
   return (
 
@@ -196,6 +207,13 @@ const deleteappelOffre = (appelOffreId) => {
       </Link>
 </div>
   </div>
+  <div className="row my-2">
+        <div className="col-12 text-end">
+          <button className="btn btn-success" onClick={exportToExcel}>
+            Exporter en Excel
+          </button>
+        </div>
+      </div>
 </div>
 
 
