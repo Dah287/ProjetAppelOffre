@@ -28,8 +28,8 @@ const DashboardAppelOffreComponent = () => {
     };
 
     return (
-        <div >
-            <h4 className="dashboard-title text-center mt-4 mb-4 fs-4">
+        <div className="vvvv">
+            <h4 className="dashboard-title text-center">
   SUIVI DU PROGRAMME PREVISIONNEL DES OPERATIONS NOUVELLES A LANCER PAR <br /> L’ORMVAD
 </h4>
 

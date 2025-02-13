@@ -18,12 +18,12 @@
   font-size: 14px; /* Taille de la police */
 }
 th {
-  font-size: 14px; /* Taille du texte réduite */
+  font-size: 16px; /* Taille du texte réduite */
   text-align: center;
 }
 td {
     
-  font-size: 14px; /* Taille du texte réduite */
+  font-size: 16px; /* Taille du texte réduite */
 }
 .btnn {
 
@@ -86,15 +86,15 @@ buttongg {
 
 @media only screen and (max-width: 1280px) {
   th, td {
-    font-size: 10px;
+    font-size: 12px;
     padding: 5px;
   }
+.cccc{
 
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+  width: 120px  !important;
+}
+
+
 
   .btnn {
 
@@ -137,7 +137,7 @@ buttongg {
     font-weight: bold;
   }
   .stats-card p {
-    font-size: 9px !important; /* Ajustement spécifique pour les paragraphes */
+    font-size: 12px !important; /* Ajustement spécifique pour les paragraphes */
   }
   .btn-ajouter-ao {
     width: 100% !important; /* Le bouton prendra toute la largeur de son conteneur sur les petits écrans */
@@ -146,6 +146,7 @@ buttongg {
   }
   .nnn{
     font-size: 25px !important;
+    
 
   }
 }
@@ -164,7 +165,7 @@ buttongg {
 
 .stats-card p {
   margin: 8px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
 }
 .row.my-2 {

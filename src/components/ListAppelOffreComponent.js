@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import AppelOffreService from '../services/AppelOffreService'
 import { Link ,useHistory,useParams} from 'react-router-dom'
 import './FilterComponent.css';
-import * as XLSX from 'xlsx';
 
 
 const ListAppelOffreComponent = () => {
@@ -14,10 +13,15 @@ const [appelOffre, setAppelOffre] = useState([])
 const {enttt} = useParams();
 
 const [totals, setTotals] = useState({
+  totalAppelOffres: 0,
+  estimationTotalAppelOffres: 0,
   totalLance: 0,
+  estimationTotalLance: 0,
   totalTransmisCe: 0,
-  totalEnCoursExamen: 0,
+  estimationTotalTransmisCe: 0,
   totalJuge: 0,
+  estimationTotalJuge: 0,
+  totalEnCoursExamen: 0
 });
 
 const ent = "no"
@@ -42,36 +46,49 @@ const ent = "no"
       AppelOffreService.getDashboard(entite).then((response) => {
         const data = response.data;
     
-        // Débogage : Afficher les données reçues
         console.log("Données reçues:", data);
         console.log("Entité sélectionnée:", entite);
     
         if (data.length > 0) {
           if (entite) {
-            // Recherche des données pour l'entité spécifique
             const entityData = data.find(row => row.entite === entite);
             if (entityData) {
               console.log("Données de l'entité trouvées:", entityData);
               setTotals({
                 totalAppelOffres: entityData["Total des Appels d'Offres"],
+                estimationTotalAppelOffres: entityData["totalsEstimationTotalAppelOffres"],
+    
                 totalLance: entityData["Total Lancés"],
+                estimationTotalLance: entityData["totalsEstimationTotalLance"],
+    
                 totalTransmisCe: entityData["Total Transmis à la Commission"],
+                estimationTotalTransmisCe: entityData["totalsEstimationTotalTransmisCe"],
+    
                 totalJuge: entityData["Total Jugés"],
+                estimationTotalJuge: entityData["totalsEstimationTotalJuge"],
+    
                 totalEnCoursExamen: entityData["appelOffresEnCoursExamen"]
               });
             } else {
               console.log("Aucune donnée trouvée pour l'entité:", entite);
             }
           } else {
-            // Recherche des totaux globaux
             const globalData = data.find(row => row.entite === "Total");
             if (globalData) {
               console.log("Données globales trouvées:", globalData);
               setTotals({
                 totalAppelOffres: globalData["appelOffresTotal"],
+                estimationTotalAppelOffres: globalData["totalsEstimationTotalAppelOffres"],
+    
                 totalLance: globalData["appelOffresLance"],
+                estimationTotalLance: globalData["totalsEstimationTotalLance"],
+    
                 totalTransmisCe: globalData["appelOffresTransmisCe"],
+                estimationTotalTransmisCe: globalData["totalsEstimationTotalTransmisCe"],
+    
                 totalJuge: globalData["appelOffresJuge"],
+                estimationTotalJuge: globalData["totalsEstimationTotalJuge"],
+    
                 totalEnCoursExamen: globalData["appelOffresEnCoursExamen"]
               });
             } else {
@@ -127,13 +144,8 @@ const deleteappelOffre = (appelOffreId) => {
                   
         
     // }
-    const exportToExcel = () => {
-      const worksheet = XLSX.utils.json_to_sheet(appelOffre);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Appels d'Offres");
-    
-      // Écrire le fichier Excel
-      XLSX.writeFile(workbook, "Appels_d_Offres.xlsx");
+    const formatToMDH = (value) => {
+      return value ? (value / 1_000_000).toFixed(1) + " MDH" : "0 MDH";
     };
     
 
@@ -145,10 +157,10 @@ const deleteappelOffre = (appelOffreId) => {
 
     {/* Filtres */}
     <div className="container-fluid">
-    <h2 className="filter-section-title text-center nnn">Liste des Appels d'Offres</h2>
+    <h2 className="filter-section-title text-center nnn" >Liste des Appels d'Offres</h2>
 
   <div className="row my-2">
-  <div className="col-12 col-md-3 mb-3">
+  <div className="col-12 col-md-2 mb-3">
     <div className="filter-card">
       <label className="filter-label">Entité</label>
       <select className="form-select filter-select" value={entiteF} onChange={(e) => setEntiteF(e.target.value)}>
@@ -165,7 +177,7 @@ const deleteappelOffre = (appelOffreId) => {
   </div>
 
   {/* Filter: Situation */}
-  <div className="col-12 col-md-3 mb-3">
+  <div className="col-12 col-md-2 mb-3">
     <div className="filter-card">
       <label className="filter-label">Situation</label>
       <select className="form-select filter-select" value={fitre} onChange={(e) => setfitre(e.target.value)}>
@@ -179,7 +191,7 @@ const deleteappelOffre = (appelOffreId) => {
   </div>
 
   {/* Filter: Type Marché */}
-  <div className="col-12 col-md-3 mb-3">
+  <div className="col-12 col-md-2 mb-3">
     <div className="filter-card">
       <label className="filter-label">Type Marché</label>
       <select className="form-select filter-select" value={typeMarcheF} onChange={(e) => settypeMarcheF(e.target.value)}>
@@ -192,13 +204,14 @@ const deleteappelOffre = (appelOffreId) => {
   </div>
 
 
-    <div className="col-12 col-md-2 mb-2">
-      <div className="stats-card">
-        <p><strong>Total des Appels d'Offres : <span className="stat-value">{totals.totalAppelOffres}</span></strong></p>
-        <p><strong>Total En Cours de Vérification : <span className="stat-value">{totals.totalTransmisCe}</span></strong></p>
-        <p><strong>Total Lancés : <span className="stat-value">{totals.totalLance}</span></strong></p>
-        <p><strong>Total Jugés : <span className="stat-value">{totals.totalJuge}</span></strong></p>
-      </div>
+    <div className="col-12 col-md-5 mb-2">
+    <div className="stats-card">
+  <p><strong>Total des Appels d'Offres : <span className="stat-value" style={{paddingRight: "15px"}}>{totals.totalAppelOffres}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalAppelOffres)}</span>)</strong></p>
+  <p><strong>AO. Transmis Commission : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalTransmisCe}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalTransmisCe)}</span>)</strong></p>
+  <p><strong>AO. Lancés : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalLance}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalLance)}</span>)</strong></p>
+  <p><strong>AO. Jugés : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalJuge}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalJuge)}</span>)</strong></p>
+</div>
+
     </div>
 
     <div className="col-12 col-md-1 text-end mb-2">
@@ -207,13 +220,6 @@ const deleteappelOffre = (appelOffreId) => {
       </Link>
 </div>
   </div>
-  <div className="row my-2">
-        <div className="col-12 text-end">
-          <button className="btn btn-success" onClick={exportToExcel}>
-            Exporter en Excel
-          </button>
-        </div>
-      </div>
 </div>
 
 
@@ -223,20 +229,20 @@ const deleteappelOffre = (appelOffreId) => {
     <table className="table table-bordered table-striped" style={{ tableLayout: "fixed" }}>
   <thead>
     <tr>
-      <th style={{ textAlign: "center" }}>Entité</th>
-      <th  style={{ textAlign: "center", width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Objet</th>
-      <th style={{ textAlign: "center",width: "80px" }}>Type Marché</th>
-      <th style={{ textAlign: "center" }}>Estimation</th>
-      <th style={{ textAlign: "center",width: "80px" }}>PME</th>
-      <th style={{ textAlign: "center" }}>Publication PREV</th>
+      <th style={{ textAlign: "center",width: "40px" }}>Entité</th>
+      <th  style={{ textAlign: "center", width: "300px" }}>Objet</th>
+      <th style={{ textAlign: "center",width: "50px" }}>Type Marché</th>
+      <th style={{ width: "70px" }}>Estimation</th>
+      <th style={{ textAlign: "center",width: "50px" }}>PME</th>
+      <th style={{ textAlign: "center",width: "80px" }}>Publication Prev</th>
      
-      <th style={{ textAlign: "center" }}>Transmis commission</th>
-      <th style={{ textAlign: "center" }}>Observation MC</th>
-      <th style={{ textAlign: "center" ,width: "60px"}}>N° AO</th>
-      <th style={{ textAlign: "center" }}>Ouverture Reelle</th>
-      <th style={{ textAlign: "center" }}>Jugement</th>
-      <th style={{ textAlign: "center" }}>Observations</th>
-      <th style={{ textAlign: "center" ,width: "140px"}}>Actions</th>
+      <th style={{ textAlign: "center" ,width: "80px" }}>Transmis Commission</th>
+      <th style={{ textAlign: "center",width: "80px"  }}>Observation Commission</th>
+      <th style={{ textAlign: "center" ,width: "40px"}}>N° AO</th>
+      <th style={{ textAlign: "center",width: "80px"  }}>Ouverture Reelle</th>
+      <th style={{ textAlign: "center" ,width: "80px" }}>Jugement</th>
+      <th style={{ textAlign: "center" ,width: "80px" }}>Observations</th>
+      <th  className="cccc" style={{ textAlign: "center" ,width: "85px"}}>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -278,8 +284,8 @@ const deleteappelOffre = (appelOffreId) => {
             : "white",  // Couleur par défaut
         }}
         >
-          <td>{appel.entite}</td>
-          <td style={{ width: "550px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <td >{appel.entite}</td>
+          <td style={{ width: "550px" }}>
             {appel.objet}
           </td>
           <td style={{ textAlign: "center"}}>{appel.typeMarche}</td>

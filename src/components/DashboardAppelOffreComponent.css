@@ -13,15 +13,21 @@ th  td {
 .table tbody tr:nth-child(even) {
     background-color: #D3D3D3; /* Gris clair */
 }
+.vvvv{
 
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 0px;
+}
 @media only screen and (max-width: 1280px) {
-  .table th {
-    width: 400px;
-  }
+
 
   .dashboard-title {
-    font-size: 1.2rem; /* Ajustement de la taille du texte si nécessaire */
+    font-size: 1.4rem; /* Ajustement de la taille du texte si nécessaire */
   }
+  .table{
+    margin-left:  0px  !important;
 
+  }
 
 }
