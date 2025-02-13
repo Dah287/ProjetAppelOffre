@@ -208,41 +208,45 @@ public class AppelOffreController {
 
     @GetMapping("/dashboards")
     public List<Map<String, Object>> getDashboardData(@RequestParam(required = false) String entite) {
-        // Si entite est null ou vide, calculer le total global
         List<AppelOffre> appelOffres;
 
         if (entite == null || entite.isEmpty()) {
-            // Filtrer sur toutes les entités
             appelOffres = appelOffreRepository.findAll();
         } else {
-            // Filtrer par l'entité spécifiée
             appelOffres = appelOffreRepository.findAll().stream()
                     .filter(a -> a.getEntite().equals(entite))
                     .collect(Collectors.toList());
         }
 
-        // Calcul total global si aucune entité spécifique
+        // Calcul du total global si aucune entité spécifique
         Map<String, Object> globalRow = new HashMap<>();
         if (entite == null || entite.isEmpty()) {
             globalRow.put("entite", "Total");
 
             long totalAppelOffres = appelOffres.size();
-            long totalAppelOffresLance = appelOffres.stream()
-                    .filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
-                    .count();
-            long totalAppelOffresTransmisCe = appelOffres.stream()
-                    .filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
-                    .count();
-            long totalAppelOffresJuge = appelOffres.stream()
-                    .filter(a -> a.getDateJugement() != null)
-                    .count();
+            long totalAppelOffresLance = appelOffres.stream().filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null).count();
+            long totalAppelOffresTransmisCe = appelOffres.stream().filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null).count();
+            long totalAppelOffresJuge = appelOffres.stream().filter(a -> a.getDateJugement() != null).count();
             long totalAppelOffresEnCoursExamen = appelOffres.size() - (totalAppelOffresLance + totalAppelOffresTransmisCe + totalAppelOffresJuge);
+
+            // Calcul des estimations globales
+            double totalsEstimationTotalAppelOffres = appelOffres.stream().mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+            double totalsEstimationTotalLance = appelOffres.stream().filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
+                    .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+            double totalsEstimationTotalTransmisCe = appelOffres.stream().filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
+                    .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+            double totalsEstimationTotalJuge = appelOffres.stream().filter(a -> a.getDateJugement() != null)
+                    .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
 
             globalRow.put("appelOffresTotal", totalAppelOffres);
             globalRow.put("appelOffresLance", totalAppelOffresLance);
             globalRow.put("appelOffresTransmisCe", totalAppelOffresTransmisCe);
             globalRow.put("appelOffresJuge", totalAppelOffresJuge);
             globalRow.put("appelOffresEnCoursExamen", totalAppelOffresEnCoursExamen);
+            globalRow.put("totalsEstimationTotalAppelOffres", totalsEstimationTotalAppelOffres);
+            globalRow.put("totalsEstimationTotalLance", totalsEstimationTotalLance);
+            globalRow.put("totalsEstimationTotalTransmisCe", totalsEstimationTotalTransmisCe);
+            globalRow.put("totalsEstimationTotalJuge", totalsEstimationTotalJuge);
         }
 
         List<Map<String, Object>> result = appelOffres.stream()
@@ -252,30 +256,29 @@ public class AppelOffreController {
                     Map<String, Object> row = new HashMap<>();
                     row.put("entite", entry.getKey());
 
-                    // Comptage des Appels d'Offres Lancés
-                    long appelOffresLance = entry.getValue().stream()
-                            .filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
-                            .count();
-
-                    // Comptage des Appels d'Offres Transmis à la Commission
-                    long appelOffresTransmisCe = entry.getValue().stream()
-                            .filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
-                            .count();
-
-                    // Comptage des Appels d'Offres Jugés
-                    long appelOffresJuge = entry.getValue().stream()
-                            .filter(a -> a.getDateJugement() != null)
-                            .count();
-
-                    // En cours d'examen (non encore lancés, transmis ou jugés)
+                    long appelOffresLance = entry.getValue().stream().filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null).count();
+                    long appelOffresTransmisCe = entry.getValue().stream().filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null).count();
+                    long appelOffresJuge = entry.getValue().stream().filter(a -> a.getDateJugement() != null).count();
                     long appelOffresEnCoursExamen = entry.getValue().size() - (appelOffresLance + appelOffresTransmisCe + appelOffresJuge);
 
-                    // Ajouter les totaux par entité
+                    // Calcul des estimations par entité
+                    double totalsEstimationTotalAppelOffres = entry.getValue().stream().mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+                    double totalsEstimationTotalLance = entry.getValue().stream().filter(a -> a.getDateOuvertureReelle() != null && a.getDateJugement() == null)
+                            .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+                    double totalsEstimationTotalTransmisCe = entry.getValue().stream().filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null)
+                            .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+                    double totalsEstimationTotalJuge = entry.getValue().stream().filter(a -> a.getDateJugement() != null)
+                            .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
+
                     row.put("Total des Appels d'Offres", entry.getValue().size());
                     row.put("Total Lancés", appelOffresLance);
                     row.put("Total Transmis à la Commission", appelOffresTransmisCe);
                     row.put("Total Jugés", appelOffresJuge);
                     row.put("appelOffresEnCoursExamen", appelOffresEnCoursExamen);
+                    row.put("totalsEstimationTotalAppelOffres", totalsEstimationTotalAppelOffres);
+                    row.put("totalsEstimationTotalLance", totalsEstimationTotalLance);
+                    row.put("totalsEstimationTotalTransmisCe", totalsEstimationTotalTransmisCe);
+                    row.put("totalsEstimationTotalJuge", totalsEstimationTotalJuge);
 
                     return row;
                 })
@@ -288,6 +291,7 @@ public class AppelOffreController {
 
         return result;
     }
+
 
 
 
