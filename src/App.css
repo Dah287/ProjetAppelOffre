@@ -84,7 +84,7 @@ buttongg {
   font-size: 10px !important; /* optionnel pour réduire la taille du texte */
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1600px) {
   th, td {
     font-size: 12px;
     padding: 5px;

@@ -50,6 +50,7 @@ const DashboardAppelOffreComponent = () => {
                                 <th className="text-center fs-6">Appels d'offres transmis au CE</th>
                                 <th className="text-center fs-6">Appels d'offres lancés</th>
                                 <th className="text-center fs-6">Appels d'offres jugés</th>
+                                <th className="text-center fs-6">Appels d'0ffres Non En Cours Lancés</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,6 +61,7 @@ const DashboardAppelOffreComponent = () => {
                                     <td className="text-center fs-5">{row.appelOffresTransmisCe}</td>
                                     <td className="text-center fs-5">{row.appelOffresLance}</td>
                                     <td className="text-center fs-5">{row.appelOffresJuge}</td>
+                                    <td className="text-center fs-5">{row.appelOffresEnCoursExamen}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -70,6 +72,7 @@ const DashboardAppelOffreComponent = () => {
                                 <td className="text-center fs-5"><strong>{calculateTotal('appelOffresTransmisCe')}</strong></td>
                                 <td className="text-center fs-5"><strong>{calculateTotal('appelOffresLance')}</strong></td>
                                 <td className="text-center fs-5"><strong>{calculateTotal('appelOffresJuge')}</strong></td>
+                                <td className="text-center fs-5"><strong>{calculateTotal('appelOffresEnCoursExamen')}</strong></td>
                             </tr>
                         </tfoot>
                     </table>
