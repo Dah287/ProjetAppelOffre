@@ -42,6 +42,9 @@ getappelOffreById(appelOffre){
 updateappelOffre(appelOffreId, appelOffre){
     return axios.put(AppelOffre_BASE_REST_API_URL + '/' +appelOffreId, appelOffre);
 }
+updateappelOffrerecapp(appelOffreId, appelOffre){
+  return axios.put(AppelOffre_BASE_REST_API_URL + '/update/' +appelOffreId, appelOffre);
+}
 
 deleteappelOffre(appelOffreId){
     return axios.delete(AppelOffre_BASE_REST_API_URL + '/' + appelOffreId);

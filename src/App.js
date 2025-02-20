@@ -15,6 +15,9 @@ import UserManagement from './components/UserManagement';
 import PrivateRoute from './routes/PrivateRoute';
 import ListAppelOffreSAComponent from './components/ListAppelOffreSAComponent';
 
+import RECAPP from './components/RECAPP';
+import UpdateRecappAppelOffreComponent from './components/UpdateRecappAppelOffreComponent';
+
 function App() {
 
  // const isAuthenticated = !!localStorage.getItem('user'); // Vérifie si l'utilisateur est connecté
@@ -45,6 +48,8 @@ function App() {
   <PrivateRoute path="/edit-employee/:id/:entitee" component={AddAppelOffreComponent} />
   <PrivateRoute path="/dashboard" component={DashboardAppelOffreComponent} />
   <Route path="/login" component={LoginComponent} />
+  <Route path="/recapp" component={RECAPP} />
+  <Route path="/updateRecapp/:id/:bloque" component={UpdateRecappAppelOffreComponent} />
   <PrivateRoute path="/ListAppelOffreParEntite/:entitee" component={ListAppelOffreParEntiteComponent} />
   <PrivateRoute path="/user" component={UserManagement} />
   <PrivateRoute path="/ListSA" component={ListAppelOffreSAComponent} />

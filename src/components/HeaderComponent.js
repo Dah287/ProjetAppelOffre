@@ -67,6 +67,18 @@ const HeaderComponent = () => {
     >
         <strong>Liste des Appels d'Offres</strong>
     </Link>
+    <Link
+        className="nav-link text-white mx-2"
+        to="/recapp"
+        style={{
+            border: '2px solid #fff',      // Ajout de la bordure
+            borderRadius: '12px',          // Arrondir les bords
+            padding: '6px 12px',           // Ajouter un peu de padding pour rendre le lien plus large
+            transition: 'all 0.3s ease',   // Animation pour un effet au survol
+        }}
+    >
+        <strong>RECAP-2</strong>
+    </Link>
 </>
 
                             )}                 

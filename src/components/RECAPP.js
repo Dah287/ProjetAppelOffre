@@ -4,13 +4,35 @@ import { Link ,useHistory,useParams} from 'react-router-dom'
 import './FilterComponent.css';
 
 
-const ListAppelOffreComponent = () => {
+const RECAPP = () => {
 
 const [entiteF, setEntiteF] = useState('')
 const [typeMarcheF, settypeMarcheF] = useState('')
 const [fitre, setfitre] = useState('')
 const [appelOffre, setAppelOffre] = useState([])
 const {enttt} = useParams();
+const [montantTTC, setMontantTTC] = useState("");
+const [marcheVise, setMarcheVise] = useState("");
+
+let isBloque = "non";
+
+const getMarcheVise = (appel) => {
+
+
+  if (
+    (appel.typeMarche === 'S' || appel.typeMarche === 'F') && appel.montantTTC >= 1_000_000 ||
+    (appel.typeMarche === 'T' && appel.montantTTC >= 2_000_000)
+  ) {
+    isBloque = "non"; 
+    return appel.marcheVise ? appel.marcheVise : "Visé"; // Affiche la date si elle existe
+  } else {
+    isBloque = "oui";
+    return "Non Visé"; // Champ bloqué si les conditions ne sont pas remplies
+  }
+};
+
+
+
 
 const [totals, setTotals] = useState({
   totalAppelOffres: 0,
@@ -20,19 +42,22 @@ const [totals, setTotals] = useState({
   totalTransmisCe: 0,
   estimationTotalTransmisCe: 0,
   totalJuge: 0,
+  totalPme: 0,
   estimationTotalJuge: 0,
+  estimationTotalPme: 0,
   totalEnCoursExamen: 0
 });
 
-const ent = "no"
+const bloque = "oui"
   useEffect(() => {
-    
+    console.log( getAllAppelOffre(entiteF,typeMarcheF,fitre))
         getAllAppelOffre(entiteF,typeMarcheF,fitre);
         getDashboardData(entiteF); // Appel avec l'entité sélectionnée
     }, [entiteF, typeMarcheF,fitre])
 
     const getAllAppelOffre = (entiteF,typeMarcheF,fitre) => {
         AppelOffreService.getAllAppelOffre(entiteF,typeMarcheF,fitre).then((response) => {
+          console.log("Données pr:", response);
             setAppelOffre(response.data)
             console.log(entiteF);
             console.log(typeMarcheF);
@@ -66,6 +91,9 @@ const ent = "no"
     
                 totalJuge: entityData["Total Jugés"],
                 estimationTotalJuge: entityData["totalsEstimationTotalJuge"],
+
+                totalPme: entityData["Total Pme"],
+                estimationTotalPme: entityData["totalsEstimationTotalPme"],
     
                 totalEnCoursExamen: entityData["appelOffresEnCoursExamen"]
               });
@@ -88,6 +116,9 @@ const ent = "no"
     
                 totalJuge: globalData["appelOffresJuge"],
                 estimationTotalJuge: globalData["totalsEstimationTotalJuge"],
+
+                totalPme: globalData["appelOffresPme"],
+                estimationTotalPme: globalData["totalsEstimationTotalPme"],
     
                 totalEnCoursExamen: globalData["appelOffresEnCoursExamen"]
               });
@@ -210,15 +241,13 @@ const deleteappelOffre = (appelOffreId) => {
   <p><strong>AO. Transmis Commission : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalTransmisCe}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalTransmisCe)}</span>)</strong></p>
   <p><strong>AO. Lancés : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalLance}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalLance)}</span>)</strong></p>
   <p><strong>AO. Jugés : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalJuge}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalJuge)}</span>)</strong></p>
+  <p><strong>AO. PME : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalPme}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalPme)}</span>)</strong></p>
+
 </div>
 
     </div>
 
-    <div className="col-12 col-md-1 text-end mb-2">
-      <Link to={`/add-appeloffre/${entt}`} className="btn-ajouter-ao">
-              Ajouter AO
-      </Link>
-</div>
+
   </div>
 </div>
 
@@ -234,14 +263,10 @@ const deleteappelOffre = (appelOffreId) => {
       <th style={{ textAlign: "center",width: "50px" }}>Type Marché</th>
       <th style={{ width: "70px" }}>Estimation</th>
       <th style={{ textAlign: "center",width: "50px" }}>PME</th>
-      <th style={{ textAlign: "center",width: "80px" }}>Publication Prev</th>
+      <th style={{ textAlign: "center",width: "80px" }}>Attributaire</th>
      
-      <th style={{ textAlign: "center" ,width: "80px" }}>Transmis Commission</th>
-      <th style={{ textAlign: "center",width: "80px"  }}>Observation Commission</th>
-      <th style={{ textAlign: "center" ,width: "40px"}}>N° AO</th>
-      <th style={{ textAlign: "center",width: "80px"  }}>Ouverture Reelle</th>
-      <th style={{ textAlign: "center" ,width: "80px" }}>Jugement</th>
-      <th style={{ textAlign: "center" ,width: "80px" }}>Observations</th>
+      <th style={{ textAlign: "center" ,width: "80px" }}>Montant de Marché TTC</th>
+      <th style={{ textAlign: "center",width: "80px"  }}>Marché Visé</th>
       <th  className="cccc" style={{ textAlign: "center" ,width: "85px"}}>Actions</th>
     </tr>
   </thead>
@@ -291,14 +316,12 @@ const deleteappelOffre = (appelOffreId) => {
           <td style={{ textAlign: "center"}}>{appel.typeMarche}</td>
           <td>{appel.estimation?.toLocaleString('fr-MA')}</td>
           <td>{appel.pme}</td>
-          <td>{appel.moisPublicationPrevisionnelle}</td>
+          <td>{appel.attributaire}</td>
           {/* <td>{appel.dateOuverturePrevisionnelle}</td> */}
-          <td>{appel.datetransmisCe}</td>
-          <td>{appel.dateobservationMc}</td>
-          <td style={{ textAlign: "center" ,width: "60px"}}>{appel.numero}</td>
-          <td>{appel.dateOuvertureReelle}</td>
-          <td>{appel.dateJugement}</td>
-          <td>{appel.observations}</td>
+          <td>{appel.montantTTC?.toLocaleString('fr-MA')}</td>
+          <td>{getMarcheVise(appel)}</td>
+
+     
           <td style={{  alignItems: "center" ,width: "160px"}}>
             <Link
               className="btn btn-info small-buttonn"
@@ -310,25 +333,11 @@ const deleteappelOffre = (appelOffreId) => {
                 paddingRight:"1px"
               
               }}
-              to={`/edit-employee/${appel.id}/${ent}`}
+              to={`/updateRecapp/${appel.id}/${isBloque}`}
             >
               Modifier
             </Link>
-            <button
-              className="btn btn-danger small-buttonn"
-              onClick={() => deleteappelOffre(appel.id)}
-              style={{
-                
-                fontSize: "12px",
-                width: "60px",
-                paddingLeft : "1px",
-                paddingRight:"1px",
-                marginLeft: "10px"
-             
-              }}
-            >
-              Supprimer
-            </button>
+
           </td>
         </tr>
       ))}
@@ -344,4 +353,4 @@ const deleteappelOffre = (appelOffreId) => {
 
 
 
-export default ListAppelOffreComponent
+export default RECAPP
