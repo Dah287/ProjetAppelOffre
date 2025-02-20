@@ -36,7 +36,9 @@ public class AppelOffre {
     private LocalDate dateOuvertureReelle; // Date ouverture (réelle)
     private LocalDate dateJugement; // Date jugement
     private String observations; // OBSERVATIONS
-
+    private String Attributaire;
+    private Double MontantTTC;
+    private LocalDate MarcheVise;
     // Getters et Setters
 
 }
