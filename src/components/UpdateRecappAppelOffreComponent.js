@@ -5,6 +5,7 @@ import './AddAppelOffreComponent.css';
 
 const UpdateRecappAppelOffreComponent = () => {
   const [numero, setNumero] = useState('');
+  const [numeroVisa, setNumeroVisa] = useState('');
   const [entite, setEntite] = useState('');
   const [objet, setObjet] = useState('');
   const [typeMarche, setTypeMarche] = useState('');
@@ -32,7 +33,7 @@ const UpdateRecappAppelOffreComponent = () => {
 
   const saveOrUpdatedAppelOffre = (e) => {
     e.preventDefault();
-    const appelOffre = { attributaire, montantTTC, marcheVise };
+    const appelOffre = { attributaire, montantTTC, marcheVise,numeroVisa };
 
     if (id) {
         console.log(appelOffre)
@@ -89,6 +90,18 @@ const UpdateRecappAppelOffreComponent = () => {
             {title()}
             <div className="card-body">
               <form>
+              <div className="form-group mb-2">
+                  <label className="form-label">Numero Visa:</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Attributaire"
+                    name="numeroVisa"
+                    className="form-control"
+                    value={numeroVisa}
+                    onChange={(e) => setNumeroVisa(e.target.value)}
+                    required
+                  />
+                </div>
                 <div className="form-group mb-2">
                   <label className="form-label">Attributaire :</label>
                   <input
