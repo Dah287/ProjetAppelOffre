@@ -6,8 +6,11 @@ import './FilterComponent.css';
 
 const RECAPP = () => {
 
+  const user = JSON.parse(localStorage.getItem('user'));
+  
 const [entiteF, setEntiteF] = useState('')
 const [typeMarcheF, settypeMarcheF] = useState('')
+const [visa, setvisa] = useState('')
 const [fitre, setfitre] = useState('')
 const [appelOffre, setAppelOffre] = useState([])
 const {enttt} = useParams();
@@ -43,20 +46,22 @@ const [totals, setTotals] = useState({
   estimationTotalTransmisCe: 0,
   totalJuge: 0,
   totalPme: 0,
+  totalVisa: 0,
   estimationTotalJuge: 0,
   estimationTotalPme: 0,
+  estimationTotalVisa: 0,
   totalEnCoursExamen: 0
 });
 
 const bloque = "oui"
   useEffect(() => {
-    console.log( getAllAppelOffre(entiteF,typeMarcheF,fitre))
-        getAllAppelOffre(entiteF,typeMarcheF,fitre);
+    console.log( getAllAppelOffre(entiteF,typeMarcheF,fitre,visa))
+        getAllAppelOffre(entiteF,typeMarcheF,fitre,visa);
         getDashboardData(entiteF); // Appel avec l'entité sélectionnée
-    }, [entiteF, typeMarcheF,fitre])
+    }, [entiteF, typeMarcheF,fitre,visa])
 
-    const getAllAppelOffre = (entiteF,typeMarcheF,fitre) => {
-        AppelOffreService.getAllAppelOffre(entiteF,typeMarcheF,fitre).then((response) => {
+    const getAllAppelOffre = (entiteF,typeMarcheF,fitre,visa) => {
+        AppelOffreService.getAllAppelOffre(entiteF,typeMarcheF,fitre,visa).then((response) => {
           console.log("Données pr:", response);
             setAppelOffre(response.data)
             console.log(entiteF);
@@ -94,6 +99,9 @@ const bloque = "oui"
 
                 totalPme: entityData["Total Pme"],
                 estimationTotalPme: entityData["totalsEstimationTotalPme"],
+
+                totalVisa: entityData["Total Visa"],
+                estimationTotalVisa: entityData["totalsEstimationTotalVisa"],
     
                 totalEnCoursExamen: entityData["appelOffresEnCoursExamen"]
               });
@@ -119,6 +127,9 @@ const bloque = "oui"
 
                 totalPme: globalData["appelOffresPme"],
                 estimationTotalPme: globalData["totalsEstimationTotalPme"],
+
+                totalVisa: globalData["appelOffresVisa"],
+                estimationTotalVisa: globalData["totalsEstimationTotalVisa"],
     
                 totalEnCoursExamen: globalData["appelOffresEnCoursExamen"]
               });
@@ -233,16 +244,27 @@ const deleteappelOffre = (appelOffreId) => {
       </select>
     </div>
   </div>
+    {/* Filter: Type Visa */}
+    <div className="col-12 col-md-2 mb-3">
+    <div className="filter-card">
+      <label className="filter-label">Suivi de Visa </label>
+      <select className="form-select filter-select" value={visa} onChange={(e) => setvisa(e.target.value)}>
+        <option value="">Sélectionner un type de visa</option>
+        <option value="vise">marché Visé</option>
+        <option value="nonvise">Non Visé </option>
+      </select>
+    </div>
+  </div>
 
 
-    <div className="col-12 col-md-5 mb-2">
+    <div className="col-12 col-md-4 mb-2">
     <div className="stats-card">
   <p><strong>Total des Appels d'Offres : <span className="stat-value" style={{paddingRight: "15px"}}>{totals.totalAppelOffres}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalAppelOffres)}</span>)</strong></p>
   <p><strong>AO. Transmis Commission : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalTransmisCe}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalTransmisCe)}</span>)</strong></p>
   <p><strong>AO. Lancés : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalLance}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalLance)}</span>)</strong></p>
   <p><strong>AO. Jugés : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalJuge}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalJuge)}</span>)</strong></p>
   <p><strong>AO. PME : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalPme}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalPme)}</span>)</strong></p>
-
+  <p><strong>AO. Visé : <span className="stat-value"style={{paddingRight: "15px"}}>{totals.totalVisa}</span> (Estimation : <span className="stat-value">{formatToMDH(totals.estimationTotalVisa)}</span>)</strong></p>
 </div>
 
     </div>

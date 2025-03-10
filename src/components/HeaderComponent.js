@@ -77,7 +77,7 @@ const HeaderComponent = () => {
             transition: 'all 0.3s ease',   // Animation pour un effet au survol
         }}
     >
-        <strong>RECAP-2</strong>
+        <strong>Suivi de Visa</strong>
     </Link>
 </>
 
