@@ -73,4 +73,13 @@ public interface AppelOffreRepository extends JpaRepository<AppelOffre,Long> {
     List<AppelOffre> findByEntiteAndDatetransmisCeIsNull(String entite);
     List<AppelOffre> findByTypeMarcheAndDatetransmisCeIsNull(String typeMarche);
     List<AppelOffre> findByDatetransmisCeIsNull();
+    List<AppelOffre> findByMarcheViseIsNotNull();  // Pour récupérer les éléments ayant une date non nulle
+    List<AppelOffre> findByMarcheViseIsNull();
+    List<AppelOffre>findByTypeMarcheAndMarcheViseIsNull(String typeMarche);
+    List<AppelOffre>findByEntiteAndMarcheViseIsNull(String entite);
+    List<AppelOffre>findByEntiteAndTypeMarcheAndMarcheViseIsNull(String entite,String  typeMarche);
+    List<AppelOffre>findByTypeMarcheAndMarcheViseIsNotNull(String typeMarche);
+    List<AppelOffre>findByEntiteAndMarcheViseIsNotNull(String entite);
+    List<AppelOffre>findByEntiteAndTypeMarcheAndMarcheViseIsNotNull(String entite, String typeMarche);
+
 }

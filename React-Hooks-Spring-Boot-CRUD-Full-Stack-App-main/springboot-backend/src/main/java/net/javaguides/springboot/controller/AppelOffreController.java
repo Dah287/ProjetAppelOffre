@@ -81,7 +81,7 @@ public class AppelOffreController {
         updateappelOffre.setAttributaire(appelOffreDetails.getAttributaire());
         updateappelOffre.setMontantTTC(appelOffreDetails.getMontantTTC());
         updateappelOffre.setMarcheVise(appelOffreDetails.getMarcheVise());
-
+        updateappelOffre.setNumeroVisa(appelOffreDetails.getNumeroVisa());
 
         appelOffreRepository.save(updateappelOffre);
 
@@ -106,7 +106,8 @@ public class AppelOffreController {
     public List<AppelOffre> getAppelOffres(
             @RequestParam(required = false) String entite,
             @RequestParam(required = false) String typeMarche,
-            @RequestParam(required = false) String fitre) {
+            @RequestParam(required = false) String fitre,
+            @RequestParam(required = false) String visa) {
 
         if ("ouv".equals(fitre)) {
             // Si filtre = "ouv", récupère les lignes où dateOuvertureReelle est non nulle et dateJugement est nulle
@@ -155,8 +156,28 @@ public class AppelOffreController {
             } else {
                 return appelOffreRepository.findByDatetransmisCeIsNull(); // Filtrer par datetransmisCe nulle
             }
-        }
-        else {
+        } else if ("vise".equals(visa)) {
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarcheAndMarcheViseIsNotNull(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntiteAndMarcheViseIsNotNull(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarcheAndMarcheViseIsNotNull(typeMarche);
+            } else {
+                return appelOffreRepository.findByMarcheViseIsNotNull(); // Filtrer par datetransmisCe nulle
+            }
+
+        } else if ("nonvise".equals(visa)) {
+            if (entite != null && typeMarche != null) {
+                return appelOffreRepository.findByEntiteAndTypeMarcheAndMarcheViseIsNull(entite, typeMarche);
+            } else if (entite != null) {
+                return appelOffreRepository.findByEntiteAndMarcheViseIsNull(entite);
+            } else if (typeMarche != null) {
+                return appelOffreRepository.findByTypeMarcheAndMarcheViseIsNull(typeMarche);
+            } else {
+                return appelOffreRepository.findByMarcheViseIsNull(); // Filtrer par datetransmisCe nulle
+            }
+        } else {
             // Si fitre est nul ou non reconnu, appliquer les autres filtres comme avant
             if (entite != null && typeMarche != null) {
                 return appelOffreRepository.findByEntiteAndTypeMarche(entite, typeMarche);
@@ -168,6 +189,15 @@ public class AppelOffreController {
                 return appelOffreRepository.findAll(); // Retourne toutes les offres si aucun filtre n'est appliqué
             }
         }
+
+//        // Appliquer le filtre visa si présent
+//        if ("vise".equals(visa)) {
+//            return appelOffreRepository.findByMarcheViseIsNotNull();
+//        } else if ("nonvise".equals(visa)) {
+//            return appelOffreRepository.findByMarcheViseIsNull();
+//        }
+
+
     }
 
 
@@ -242,6 +272,7 @@ public class AppelOffreController {
             long totalAppelOffresTransmisCe = appelOffres.stream().filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null).count();
             long totalAppelOffresJuge = appelOffres.stream().filter(a -> a.getDateJugement() != null).count();
             long totalAppelOffresPme = appelOffres.stream().filter(a -> a.getPme() != null).count();
+            long totalAppelOffresVisa = appelOffres.stream().filter(a -> a.getMarcheVise() != null).count();
             long totalAppelOffresEnCoursExamen = appelOffres.size() - (totalAppelOffresLance + totalAppelOffresTransmisCe + totalAppelOffresJuge);
 
             // Calcul des estimations globales
@@ -254,18 +285,21 @@ public class AppelOffreController {
                     .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
             double totalsEstimationTotalPme = appelOffres.stream().filter(a -> a.getPme() != null)
                     .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
-
+            double totalsEstimationTotalVisa = appelOffres.stream().filter(a -> a.getMarcheVise() != null)
+                    .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
             globalRow.put("appelOffresTotal", totalAppelOffres);
             globalRow.put("appelOffresLance", totalAppelOffresLance);
             globalRow.put("appelOffresTransmisCe", totalAppelOffresTransmisCe);
             globalRow.put("appelOffresJuge", totalAppelOffresJuge);
             globalRow.put("appelOffresPme", totalAppelOffresPme);
+            globalRow.put("appelOffresVisa", totalAppelOffresVisa);
             globalRow.put("appelOffresEnCoursExamen", totalAppelOffresEnCoursExamen);
             globalRow.put("totalsEstimationTotalAppelOffres", totalsEstimationTotalAppelOffres);
             globalRow.put("totalsEstimationTotalLance", totalsEstimationTotalLance);
             globalRow.put("totalsEstimationTotalTransmisCe", totalsEstimationTotalTransmisCe);
             globalRow.put("totalsEstimationTotalJuge", totalsEstimationTotalJuge);
             globalRow.put("totalsEstimationTotalPme", totalsEstimationTotalPme);
+            globalRow.put("totalsEstimationTotalVisa", totalsEstimationTotalVisa);
         }
 
         List<Map<String, Object>> result = appelOffres.stream()
@@ -279,6 +313,7 @@ public class AppelOffreController {
                     long appelOffresTransmisCe = entry.getValue().stream().filter(a -> a.getDatetransmisCe() != null && a.getDateOuvertureReelle() == null).count();
                     long appelOffresJuge = entry.getValue().stream().filter(a -> a.getDateJugement() != null).count();
                     long appelOffresPme = entry.getValue().stream().filter(a -> a.getPme() != null).count();
+                    long appelOffresVisa = entry.getValue().stream().filter(a -> a.getMarcheVise()!= null).count();
                     long appelOffresEnCoursExamen = entry.getValue().size() - (appelOffresLance + appelOffresTransmisCe + appelOffresJuge);
 
                     // Calcul des estimations par entité
@@ -291,18 +326,21 @@ public class AppelOffreController {
                             .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
                     double totalsEstimationTotalPme = entry.getValue().stream().filter(a -> a.getPme() != null)
                             .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
-
+                    double totalsEstimationTotalVisa = entry.getValue().stream().filter(a -> a.getMarcheVise() != null)
+                            .mapToDouble(a -> a.getEstimation() != null ? a.getEstimation() : 0.0).sum();
                     row.put("Total des Appels d'Offres", entry.getValue().size());
                     row.put("Total Lancés", appelOffresLance);
                     row.put("Total Transmis à la Commission", appelOffresTransmisCe);
                     row.put("Total Jugés", appelOffresJuge);
                     row.put("Total Pme", appelOffresPme);
+                    row.put("Total Visa", appelOffresVisa);
                     row.put("appelOffresEnCoursExamen", appelOffresEnCoursExamen);
                     row.put("totalsEstimationTotalAppelOffres", totalsEstimationTotalAppelOffres);
                     row.put("totalsEstimationTotalLance", totalsEstimationTotalLance);
                     row.put("totalsEstimationTotalTransmisCe", totalsEstimationTotalTransmisCe);
                     row.put("totalsEstimationTotalJuge", totalsEstimationTotalJuge);
                     row.put("totalsEstimationTotalPme", totalsEstimationTotalPme);
+                    row.put("totalsEstimationTotalVisa", totalsEstimationTotalVisa);
 
                     return row;
                 })

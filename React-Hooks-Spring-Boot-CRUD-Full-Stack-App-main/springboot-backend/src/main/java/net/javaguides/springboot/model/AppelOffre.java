@@ -25,7 +25,7 @@ public class AppelOffre {
     private String typeMarche; // TYPE MARCHE
     private Double estimation; // Estimation
     private String pme; // PME
-
+    private Long numeroVisa;
     // Section Prévisionnelle
     private LocalDate moisPublicationPrevisionnelle; // Mois de publication
     private LocalDate dateOuverturePrevisionnelle; // DATE D'OUVERTURE PREVISIONNELLE
@@ -38,7 +38,7 @@ public class AppelOffre {
     private String observations; // OBSERVATIONS
     private String Attributaire;
     private Double MontantTTC;
-    private LocalDate MarcheVise;
+    private LocalDate marcheVise;
     // Getters et Setters
 
 }
