@@ -232,7 +232,16 @@ const deleteappelOffre = (appelOffreId) => {
       <th style={{ textAlign: "center",width: "40px" }}>Entité</th>
       <th  style={{ textAlign: "center", width: "300px" }}>Objet</th>
       <th style={{ textAlign: "center",width: "50px" }}>Type Marché</th>
-      <th style={{ width: "70px" }}>Estimation</th>
+      {/* <th style={{ width: "70px" }}>Estimation</th> */}
+      <th className="devise" style={{ width: "70px", textAlign: "center", overflow: "hidden" }}>
+  <div className="haut">Estimation</div>
+  <div className="bas" style={{ display: "flex", width: "100%" }}>
+    <div style={{ width: "50%", borderRight: "1px solid black", textAlign: "center" }}>CP</div>
+    <div style={{ width: "50%", textAlign: "center" }}>CE</div>
+  </div>
+</th>
+
+
       <th style={{ textAlign: "center",width: "50px" }}>PME</th>
       <th style={{ textAlign: "center",width: "80px" }}>Publication Prev</th>
      
@@ -289,7 +298,16 @@ const deleteappelOffre = (appelOffreId) => {
             {appel.objet}
           </td>
           <td style={{ textAlign: "center"}}>{appel.typeMarche}</td>
-          <td>{appel.estimation?.toLocaleString('fr-MA')}</td>
+          {/* <td>{appel.estimation?.toLocaleString('fr-MA')}</td> */}
+          <td className="devise" style={{ width: "70px", textAlign: "center", overflow: "hidden" }}>
+  <div className="haut">{appel.estimation?.toLocaleString('fr-MA')}</div>
+  <div className="bas" style={{ display: "flex", width: "100%" }}>
+    <div style={{ width: "50%", borderRight: "1px solid black", textAlign: "center" }}>CP</div>
+    <div style={{ width: "50%", textAlign: "center" }}>CE</div>
+  </div>
+</td>
+
+
           <td>{appel.pme}</td>
           <td>{appel.moisPublicationPrevisionnelle}</td>
           {/* <td>{appel.dateOuverturePrevisionnelle}</td> */}
