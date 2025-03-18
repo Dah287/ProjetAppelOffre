@@ -248,7 +248,13 @@ const deleteappelOffre = (appelOffreId) => {
       <th style={{ textAlign: "center" ,width: "80px" }}>Transmis Commission</th>
       <th style={{ textAlign: "center",width: "80px"  }}>Observation Commission</th>
       <th style={{ textAlign: "center" ,width: "40px"}}>N° AO</th>
-      <th style={{ textAlign: "center",width: "80px"  }}>Ouverture Reelle</th>
+          {/* heure */}
+      <th style={{ textAlign: "center",width: "80px"  }}>
+      <div>Ouverture Reelle</div>
+      <div style={{ borderTop: "1px solid black", paddingTop: "2px", marginTop: "2px" }}>Heure</div>
+
+      </th>
+          {/* heure */}
       <th style={{ textAlign: "center" ,width: "80px" }}>Jugement</th>
       <th style={{ textAlign: "center" ,width: "80px" }}>Observations</th>
       <th  className="cccc" style={{ textAlign: "center" ,width: "85px"}}>Actions</th>
@@ -314,7 +320,16 @@ const deleteappelOffre = (appelOffreId) => {
           <td>{appel.datetransmisCe}</td>
           <td>{appel.dateobservationMc}</td>
           <td style={{ textAlign: "center" ,width: "60px"}}>{appel.numero}</td>
-          <td>{appel.dateOuvertureReelle}</td>
+           {/* heure */}
+          <td style={{ textAlign: "center" }}>
+          <div >
+            {appel.dateOuvertureReelle}
+          </div>
+          {appel.dateOuvertureReelle && appel.heure && (
+          <div style={{ borderTop: "1px solid white", paddingTop: "2px", marginTop: "2px", fontWeight: "normal" }}>{appel.heure}</div>
+        )}
+          </td>
+          {/* heure */}
           <td>{appel.dateJugement}</td>
           <td>{appel.observations}</td>
           <td style={{  alignItems: "center" ,width: "160px"}}>

@@ -20,7 +20,7 @@ const AddAppelOffreComponent = () => {
     const [dateOuvertureReelle	, setDateOuvertureReelle] = useState('')
     const [observations	, set0bservations] = useState('')
     const [dateJugement	, setDateJugement] = useState('')
-
+    const [heure	, setHeure] = useState('')
     const history = useHistory();
     const {id} = useParams();
     let {entitee} = useParams();
@@ -70,7 +70,7 @@ const AddAppelOffreComponent = () => {
             alert("Veuillez remplir  les champs  !");
             return;
         }
-        const appelOffre = {numero, entite, objet,typeMarche,estimation,pme,moisPublicationPrevisionnelle,dateOuverturePrevisionnelle,datetransmisCe,dateobservationMc,dateOuvertureReelle,dateJugement,observations}
+        const appelOffre = {numero, entite, objet,typeMarche,estimation,pme,moisPublicationPrevisionnelle,dateOuverturePrevisionnelle,datetransmisCe,dateobservationMc,dateOuvertureReelle,heure,dateJugement,observations}
 
         if(id){
             AppelOffreService.updateappelOffre(id, appelOffre).then((response) => {
@@ -131,6 +131,7 @@ const AddAppelOffreComponent = () => {
             setDateOuvertureReelle(response.data.dateOuvertureReelle)
             setDateJugement(response.data.dateJugement)
             set0bservations(response.data.observations)
+            setHeure(response.data.heure)
 
         }).catch(error => {
             console.log(error)
@@ -302,6 +303,17 @@ const AddAppelOffreComponent = () => {
                                         onChange = {(e) => setDateOuvertureReelle(e.target.value)}
                                         /><br></br>
                                 </div>
+                                <div className="form-group mb-2">
+                                    <label className="form-label">Heure d'ouverture réelle :</label>
+                                    <input
+                                        type="time"
+                                        name="heure"
+                                        className="form-control"
+                                        value={heure}
+                                        onChange={(e) => setHeure(e.target.value)}
+                                    />
+                                </div>
+
                                 <div className = "form-group mb-2" style={{ backgroundColor: "#FA8072"}}>
                                     <label className = "form-label"> Date jugement	:</label>
                                     <input
