@@ -67,6 +67,8 @@ public class AppelOffreController {
         updateappelOffre.setDateOuvertureReelle(appelOffreDetails.getDateOuvertureReelle());
         updateappelOffre.setDateJugement(appelOffreDetails.getDateJugement());
         updateappelOffre.setObservations(appelOffreDetails.getObservations());
+        updateappelOffre.setHeure(appelOffreDetails.getHeure());
+
 
 
         appelOffreRepository.save(updateappelOffre);

@@ -29,7 +29,7 @@ public class AppelOffre {
     // Section Prévisionnelle
     private LocalDate moisPublicationPrevisionnelle; // Mois de publication
     private LocalDate dateOuverturePrevisionnelle; // DATE D'OUVERTURE PREVISIONNELLE
-
+    private String heure;
     // Section Réalisation
     private LocalDate datetransmisCe; // Transmis CE
     private LocalDate dateobservationMc; // Observation MC
