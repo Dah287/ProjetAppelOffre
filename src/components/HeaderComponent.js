@@ -79,6 +79,19 @@ const HeaderComponent = () => {
     >
         <strong>Suivi de Visa</strong>
     </Link>
+
+    <Link
+        className="nav-link text-white mx-2"
+        to="/bande-commandes"
+        style={{
+            border: '2px solid #fff',      // Ajout de la bordure
+            borderRadius: '12px',          // Arrondir les bords
+            padding: '6px 12px',           // Ajouter un peu de padding pour rendre le lien plus large
+            transition: 'all 0.3s ease',   // Animation pour un effet au survol
+        }}
+    >
+        <strong>Suivi des BC</strong>
+    </Link>
 </>
 
                             )}                 

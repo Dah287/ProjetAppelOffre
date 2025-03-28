@@ -177,7 +177,6 @@ const AddAppelOffreComponent = () => {
                                         value = {entite}
                                         required
                                         onChange = {(e) => setEntite(e.target.value)}                                    >
-                                        <option selected>ENTITE</option>
                                         <option value="DPF">DPF</option>
                                         <option value="DGR">DGR</option>
                                         <option value="DA">DA</option>

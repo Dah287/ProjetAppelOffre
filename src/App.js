@@ -17,6 +17,8 @@ import ListAppelOffreSAComponent from './components/ListAppelOffreSAComponent';
 
 import RECAPP from './components/RECAPP';
 import UpdateRecappAppelOffreComponent from './components/UpdateRecappAppelOffreComponent';
+import ListBandeCommandeComponent from './components/ListBandeCommandeComponent';
+import AddBandeCommandeComponent from './components/AddBandeCommandeComponent';
 
 function App() {
 
@@ -53,6 +55,9 @@ function App() {
   <PrivateRoute path="/ListAppelOffreParEntite/:entitee" component={ListAppelOffreParEntiteComponent} />
   <PrivateRoute path="/user" component={UserManagement} />
   <PrivateRoute path="/ListSA" component={ListAppelOffreSAComponent} />
+  <PrivateRoute path="/bande-commandes" component={ListBandeCommandeComponent} />
+  <PrivateRoute path="/add-bandecommande" component={AddBandeCommandeComponent} />
+  <PrivateRoute path="/edit-bandecommande/:id" component={AddBandeCommandeComponent} />
 </Switch>
 
             {/* <FooterComponent /> */}
