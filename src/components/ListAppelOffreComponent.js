@@ -4,6 +4,16 @@ import { Link ,useHistory,useParams} from 'react-router-dom'
 import './FilterComponent.css';
 
 
+import { 
+  TableCell,
+  Button,
+  ButtonGroup,
+  Box
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FileDownloadIcon from '@mui/icons-material/FileDownload'; // Icône pour l'export Excel
+import * as XLSX from 'xlsx'; // Import de la bibliothèque xlsx
 const ListAppelOffreComponent = () => {
 
 const [entiteF, setEntiteF] = useState('')
@@ -11,6 +21,8 @@ const [typeMarcheF, settypeMarcheF] = useState('')
 const [fitre, setfitre] = useState('')
 const [appelOffre, setAppelOffre] = useState([])
 const {enttt} = useParams();
+
+
 
 const [totals, setTotals] = useState({
   totalAppelOffres: 0,
@@ -148,7 +160,33 @@ const deleteappelOffre = (appelOffreId) => {
       return value ? (value / 1_000_000).toFixed(2) + " MDH" : "0 MDH";
     };
     
+  // Fonction pour exporter en Excel
+  const exportToExcel = () => {
+    // Préparer les données pour l'export
+    const dataToExport = appelOffre.map(appel => ({
+      'Entité': appel.entite,
+      'Objet': appel.objet,
+      'Type Marché': appel.typeMarche,
+      'Estimation': appel.estimation?.toLocaleString('fr-MA'),
+      'PME': appel.pme,
+      'Publication Prev': appel.moisPublicationPrevisionnelle,
+      'Transmis Commission': appel.datetransmisCe,
+      'Observation Commission': appel.dateobservationMc,
+      'N° AO': appel.numero,
+      'Ouverture Reelle': appel.dateOuvertureReelle,
+      'Heure Ouverture': appel.heure,
+      'Jugement': appel.dateJugement,
+      'Observations': appel.observations
+    }));
 
+    // Créer un nouveau workbook et une feuille
+    const ws = XLSX.utils.json_to_sheet(dataToExport);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "AppelsOffres");
+
+    // Exporter le fichier
+    XLSX.writeFile(wb, `appels_offres_${new Date().toISOString().slice(0,10)}.xlsx`);
+  };
   return (
 
     
@@ -219,6 +257,28 @@ const deleteappelOffre = (appelOffreId) => {
               Ajouter AO
       </Link>
 </div>
+
+          {/* Nouveau bouton d'export Excel */}
+          <div className="col-12 col-md-1 text-end mb-2">
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<FileDownloadIcon />}
+              onClick={exportToExcel}
+              sx={{
+                fontSize: '0.75rem',
+                minWidth: '120px',
+                px: 1,
+                textTransform: 'none',
+                backgroundColor: '#2e7d32',
+                '&:hover': {
+                  backgroundColor: '#1b5e20',
+                }
+              }}
+            >
+              Excel
+            </Button>
+          </div>
   </div>
 </div>
 
@@ -332,37 +392,38 @@ const deleteappelOffre = (appelOffreId) => {
           {/* heure */}
           <td>{appel.dateJugement}</td>
           <td>{appel.observations}</td>
-          <td style={{  alignItems: "center" ,width: "160px"}}>
-            <Link
-              className="btn btn-info small-buttonn"
-              style={{
-                
-                fontSize: "12px",
-                width: "50px",
-                paddingLeft : "1px",
-                paddingRight:"1px"
-              
-              }}
-              to={`/edit-employee/${appel.id}/${ent}`}
-            >
-              Modifier
-            </Link>
-            <button
-              className="btn btn-danger small-buttonn"
-              onClick={() => deleteappelOffre(appel.id)}
-              style={{
-                
-                fontSize: "12px",
-                width: "60px",
-                paddingLeft : "1px",
-                paddingRight:"1px",
-                marginLeft: "10px"
-             
-              }}
-            >
-              Supprimer
-            </button>
-          </td>
+          <TableCell sx={{ width: '100px', display: 'flex', alignItems: 'center' }}>
+  <ButtonGroup variant="contained" size="small">
+    <Button
+      component={Link}
+      to={`/edit-employee/${appel.id}/${ent}`}
+      startIcon={<EditIcon />}
+      color="info"
+      sx={{
+        fontSize: '0.75rem',
+        minWidth: '80px',
+        px: 1,
+        textTransform: 'none'
+      }}
+    >
+      Modifier
+    </Button>
+    <Button
+      onClick={() => deleteappelOffre(appel.id)}
+      startIcon={<DeleteIcon />}
+      color="error"
+      sx={{
+        fontSize: '0.75rem',
+        minWidth: '90px',
+        px: 1,
+        textTransform: 'none',
+        ml: 1
+      }}
+    >
+      Supprimer
+    </Button>
+  </ButtonGroup>
+</TableCell>
         </tr>
       ))}
   </tbody>
